@@ -1,6 +1,7 @@
 package net.prasenjit.crypto.core.endtoend;
 
 import net.prasenjit.crypto.core.Encryptor;
+import net.prasenjit.crypto.core.TextEncryptor;
 import net.prasenjit.crypto.core.exception.CryptoException;
 import net.prasenjit.crypto.core.impl.RsaEncryptor;
 import net.prasenjit.crypto.core.store.CryptoKeyFactory;
@@ -18,11 +19,11 @@ import java.security.spec.RSAPublicKeySpec;
  */
 public class RsaEncryptorBuilder {
 
-    public static Encryptor client(PublicKey publicKey) {
+    public static TextEncryptor client(PublicKey publicKey) {
         return new RsaEncryptor(publicKey);
     }
 
-    public static Encryptor client(BigInteger modulus, BigInteger publicExponent) {
+    public static TextEncryptor client(BigInteger modulus, BigInteger publicExponent) {
         try {
             RSAPublicKeySpec spec = new RSAPublicKeySpec(modulus, publicExponent);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -33,15 +34,15 @@ public class RsaEncryptorBuilder {
         }
     }
 
-    public static Encryptor client(CryptoKeyFactory keyFactory, String alias) {
+    public static TextEncryptor client(CryptoKeyFactory keyFactory, String alias) {
         return client(keyFactory.getPublicKey(alias));
     }
 
-    public static Encryptor server(PrivateKey privateKey) {
+    public static TextEncryptor server(PrivateKey privateKey) {
         return new RsaEncryptor(privateKey);
     }
 
-    public static Encryptor server(CryptoKeyFactory keyFactory, String alias, char[] password) {
+    public static TextEncryptor server(CryptoKeyFactory keyFactory, String alias, char[] password) {
         return new RsaEncryptor(keyFactory.getPrivateKey(alias, password));
     }
 }

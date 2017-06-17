@@ -18,30 +18,30 @@ import java.security.spec.RSAPublicKeySpec;
  */
 public class RsaEncryptorBuilder {
 
-    public Encryptor client(PublicKey publicKey) {
+    public static Encryptor client(PublicKey publicKey) {
         return new RsaEncryptor(publicKey);
     }
 
-    public Encryptor client(BigInteger modulus, BigInteger publicExponent) {
+    public static Encryptor client(BigInteger modulus, BigInteger publicExponent) {
         try {
             RSAPublicKeySpec spec = new RSAPublicKeySpec(modulus, publicExponent);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             PublicKey publicKey = keyFactory.generatePublic(spec);
             return client(publicKey);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new CryptoException("Failed to re-construct RSA public key");
+            throw new CryptoException("Failed to re-construct RSA public key", e);
         }
     }
 
-    public Encryptor client(CryptoKeyFactory keyFactory, String alias) {
+    public static Encryptor client(CryptoKeyFactory keyFactory, String alias) {
         return client(keyFactory.getPublicKey(alias));
     }
 
-    public Encryptor server(PrivateKey privateKey) {
+    public static Encryptor server(PrivateKey privateKey) {
         return new RsaEncryptor(privateKey);
     }
 
-    public Encryptor server(CryptoKeyFactory keyFactory, String alias, char[] password) {
+    public static Encryptor server(CryptoKeyFactory keyFactory, String alias, char[] password) {
         return new RsaEncryptor(keyFactory.getPrivateKey(alias, password));
     }
 }

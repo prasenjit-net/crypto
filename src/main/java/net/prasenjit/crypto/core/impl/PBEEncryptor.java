@@ -20,11 +20,9 @@ public class PBEEncryptor implements TextEncryptor {
 
     private static final String ALGORITHM = "PBEWithMD5AndDES";
     private final SecureRandom secureRandom = new SecureRandom();
-    private final char[] password;
     private final SecretKey secretKey;
 
     public PBEEncryptor(final char[] password) {
-        this.password = password;
         try {
             PBEKeySpec spec = new PBEKeySpec(password);
             SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(ALGORITHM);
@@ -70,7 +68,7 @@ public class PBEEncryptor implements TextEncryptor {
         } catch (NoSuchAlgorithmException | NoSuchPaddingException |
                 InvalidAlgorithmParameterException | InvalidKeyException | BadPaddingException |
                 IllegalBlockSizeException e) {
-            throw new CryptoException("Encryption failed", e);
+            throw new CryptoException("Decryption failed", e);
         }
     }
 }

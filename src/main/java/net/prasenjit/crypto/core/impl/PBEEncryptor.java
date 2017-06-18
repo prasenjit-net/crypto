@@ -35,33 +35,38 @@ public class PBEEncryptor implements TextEncryptor {
     }
 
     @Override
-    public byte[] process(byte[] data, int mode) {
-        PBEKeySpec spec;
+    public byte[] encrypt(byte[] data) {
         byte[] salt = new byte[8];
         byte[] encripted = null;
-        if (mode == Cipher.ENCRYPT_MODE) {
-            secureRandom.nextBytes(salt);
-        } else if (mode == Cipher.DECRYPT_MODE) {
-            System.arraycopy(data, data.length - salt.length, salt, 0, salt.length);
-            encripted = new byte[data.length - salt.length];
-            System.arraycopy(data, 0, encripted, 0, data.length - salt.length);
-        } else {
-            throw new CryptoException("Operation mode not supported");
-        }
+        secureRandom.nextBytes(salt);
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             AlgorithmParameterSpec paramSpec = new PBEParameterSpec(salt, 19);
-            cipher.init(mode, secretKey, paramSpec);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, paramSpec);
+            encripted = cipher.doFinal(data);
+            byte[] encFinal = new byte[encripted.length + salt.length];
+            System.arraycopy(encripted, 0, encFinal, 0, encripted.length);
+            System.arraycopy(salt, 0, encFinal, encripted.length, salt.length);
+            return encFinal;
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException |
+                InvalidAlgorithmParameterException | InvalidKeyException | BadPaddingException |
+                IllegalBlockSizeException e) {
+            throw new CryptoException("Encryption failed", e);
+        }
+    }
 
-            if (mode == Cipher.ENCRYPT_MODE) {
-                encripted = cipher.doFinal(data);
-                byte[] encFinal = new byte[encripted.length + salt.length];
-                System.arraycopy(encripted, 0, encFinal, 0, encripted.length);
-                System.arraycopy(salt, 0, encFinal, encripted.length, salt.length);
-                return encFinal;
-            } else {
-                return cipher.doFinal(encripted);
-            }
+    @Override
+    public byte[] decrypt(byte[] data) {
+        byte[] salt = new byte[8];
+        byte[] encripted = null;
+        System.arraycopy(data, data.length - salt.length, salt, 0, salt.length);
+        encripted = new byte[data.length - salt.length];
+        System.arraycopy(data, 0, encripted, 0, data.length - salt.length);
+        try {
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            AlgorithmParameterSpec paramSpec = new PBEParameterSpec(salt, 19);
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, paramSpec);
+            return cipher.doFinal(encripted);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException |
                 InvalidAlgorithmParameterException | InvalidKeyException | BadPaddingException |
                 IllegalBlockSizeException e) {

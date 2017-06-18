@@ -5,5 +5,6 @@ package net.prasenjit.crypto.core;
  */
 public interface PasswordEncryptor {
     String encrypt(String plainPassword);
+
     boolean testMatch(String plainPassword, String encryptedPassword);
 }

@@ -7,6 +7,6 @@ import javax.crypto.SecretKey;
  */
 public class DesedeEncryptor extends AbstractSymmetricEncryptor {
     public DesedeEncryptor(SecretKey key) {
-        super(key, "DESede/CBC/PKCS5Padding", 8);
+        super(key, "DESede/CBC/PKCS5Padding");
     }
 }

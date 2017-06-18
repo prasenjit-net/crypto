@@ -7,6 +7,6 @@ import javax.crypto.SecretKey;
  */
 public class AesEncryptor extends AbstractSymmetricEncryptor {
     public AesEncryptor(SecretKey key) {
-        super(key, "AES/CBC/PKCS5Padding", 16);
+        super(key, "AES/CBC/PKCS5Padding");
     }
 }

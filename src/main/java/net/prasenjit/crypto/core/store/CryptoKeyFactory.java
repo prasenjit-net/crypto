@@ -50,7 +50,7 @@ public class CryptoKeyFactory {
         }
         InputStream inputStream = null;
         try {
-            if (locationStr != null){
+            if (locationStr != null) {
                 location = URI.create(locationStr).toURL();
             }
             inputStream = location != null ? location.openStream() : null;

@@ -42,7 +42,12 @@ public class AesOverRsaEncryptor implements E2eEncryptor {
     }
 
     @Override
-    public byte[] process(byte[] data, int mode) {
-        return this.aesEncryptor.process(data, mode);
+    public byte[] encrypt(byte[] data) {
+        return this.aesEncryptor.encrypt(data);
+    }
+
+    @Override
+    public byte[] decrypt(byte[] data) {
+        return this.aesEncryptor.decrypt(data);
     }
 }

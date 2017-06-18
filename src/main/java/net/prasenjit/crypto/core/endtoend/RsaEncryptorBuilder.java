@@ -1,6 +1,5 @@
 package net.prasenjit.crypto.core.endtoend;
 
-import net.prasenjit.crypto.core.Encryptor;
 import net.prasenjit.crypto.core.TextEncryptor;
 import net.prasenjit.crypto.core.exception.CryptoException;
 import net.prasenjit.crypto.core.impl.RsaEncryptor;

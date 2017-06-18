@@ -18,12 +18,12 @@ package net.prasenjit.crypto.core.impl;
 
 import net.prasenjit.crypto.core.PasswordEncryptor;
 import net.prasenjit.crypto.core.exception.CryptoException;
-import org.apache.commons.codec.binary.Base64;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Base64;
 
 /**
  * Created by prase on 11-06-2017.
@@ -41,12 +41,12 @@ public class SshaPasswordEncryptor implements PasswordEncryptor {
         byte[] output = new byte[digest.length + salt.length];
         System.arraycopy(digest, 0, output, 0, digest.length);
         System.arraycopy(salt, 0, output, digest.length, salt.length);
-        return Base64.encodeBase64String(output);
+        return Base64.getEncoder().encodeToString(output);
     }
 
     @Override
     public boolean testMatch(String plainPassword, String encryptedPassword) {
-        byte[] data = Base64.decodeBase64(encryptedPassword);
+        byte[] data = Base64.getDecoder().decode(encryptedPassword);
         byte[] salt = new byte[8];
         byte[] digested = new byte[data.length - salt.length];
         System.arraycopy(data, data.length - salt.length, salt, 0, salt.length);

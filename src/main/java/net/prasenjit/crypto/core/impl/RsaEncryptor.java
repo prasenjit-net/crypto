@@ -18,7 +18,6 @@ package net.prasenjit.crypto.core.impl;
 
 import net.prasenjit.crypto.core.TextEncryptor;
 import net.prasenjit.crypto.core.exception.CryptoException;
-import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.*;
 import java.security.InvalidKeyException;
@@ -26,6 +25,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.interfaces.RSAKey;
+import java.util.Base64;
 
 /**
  * Created by prase on 10-06-2017.
@@ -98,7 +98,7 @@ public class RsaEncryptor implements TextEncryptor {
             Cipher wrapper = Cipher.getInstance(ALGORITHM);
             wrapper.init(Cipher.WRAP_MODE, publicKey);
             byte[] wrappedKey = wrapper.wrap(keyToWrap);
-            return Base64.encodeBase64String(wrappedKey);
+            return Base64.getEncoder().encodeToString(wrappedKey);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | InvalidKeyException e) {
             throw new CryptoException("Failed to wrap key", e);
         }
@@ -111,7 +111,7 @@ public class RsaEncryptor implements TextEncryptor {
         try {
             Cipher wrapper = Cipher.getInstance(ALGORITHM);
             wrapper.init(Cipher.UNWRAP_MODE, privateKey);
-            byte[] wrappedByte = Base64.decodeBase64(wrappedKey);
+            byte[] wrappedByte = Base64.getDecoder().decode(wrappedKey);
             return (SecretKey) wrapper.unwrap(wrappedByte, "AES", Cipher.SECRET_KEY);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
             throw new CryptoException("Failed to wrap key", e);

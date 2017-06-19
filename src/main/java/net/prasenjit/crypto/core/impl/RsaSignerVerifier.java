@@ -26,6 +26,7 @@ import java.security.*;
  */
 public class RsaSignerVerifier implements SignerVerifier {
 
+    public static final String ALGORITHM = "SHA1WithRSA";
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
 
@@ -48,7 +49,7 @@ public class RsaSignerVerifier implements SignerVerifier {
     public byte[] sign(byte[] data) {
         if (privateKey != null) {
             try {
-                Signature signature = Signature.getInstance("SHA1WithRSA");
+                Signature signature = Signature.getInstance(ALGORITHM);
                 signature.initSign(privateKey);
                 signature.update(data);
                 return signature.sign();
@@ -63,7 +64,7 @@ public class RsaSignerVerifier implements SignerVerifier {
     public boolean verify(byte[] data, byte[] sign) {
         if (publicKey != null) {
             try {
-                Signature signature = Signature.getInstance("SHA1WithRSA");
+                Signature signature = Signature.getInstance(ALGORITHM);
                 signature.initVerify(publicKey);
                 signature.update(data);
                 return signature.verify(sign);

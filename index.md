@@ -19,9 +19,10 @@
 `net.prasenjit.crypto.SignerVerifier` is a interface to perform data signing and verification. It has method like `sign` and `verify`.
 
 ## AesEncryptor
-`net.prasenjit.crypto.impl.AesEncryptor` is a implementation of symetric data encryption. It can be used in this way
 
-```
+`net.prasenjit.crypto.impl.AesEncryptor` is a implementation of symetric data encryption which uses a AES key. It can be used in this way
+
+```java
 KeyGenerator generator = KeyGenerator.getInstance("AES");
 generator.init(128);
 SecretKey secretKey = generator.generateKey();
@@ -30,4 +31,30 @@ String data = "Hello World!";
 String encrypted = encryptor.encrypt(data);
 String decrypted = encryptor.decrypt(encrypted);
 assertEquals(data, decrypted);
+```
+
+### DesedeEncryptor
+
+`net.prasenjit.crypto.impl.DesedeEncryptor` is a implementation of text encryptor which uses a 3DES key. It can be used in this way
+
+```java
+KeyGenerator generator = KeyGenerator.getInstance("DESede");
+generator.init(168);
+SecretKey secretKey = generator.generateKey();
+DesedeEncryptor encryptor = new DesedeEncryptor(secretKey);
+String data = "Hello World!";
+String encrypted = encryptor.encrypt(data);
+String decrypted = encryptor.decrypt(encrypted);
+assertEquals(data, decrypted);
+```
+
+### PBEEncryptor
+`net.prasenjit.crypto.impl.PBEEncryptor` is a password based text encryptor, it uses a user provided password instead of a secret key. It can be used in
+
+```java
+String data = "My precious data";
+PBEEncryptor encryptor = new PBEEncryptor("password".toCharArray());
+String encrypt = encryptor.encrypt(data);
+String decrypt = encryptor.decrypt(encrypt);
+assertEquals(data, decrypt);
 ```

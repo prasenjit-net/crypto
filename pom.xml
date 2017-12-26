@@ -22,7 +22,7 @@
 
     <groupId>net.prasenjit.poc</groupId>
     <artifactId>crypto</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1</version>
 
     <dependencies>
         <dependency>
@@ -58,5 +58,39 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray-prasenjit-net-maven</id>
+            <name>prasenjit-net-maven</name>
+            <url>https://api.bintray.com/maven/prasenjit-net/maven/crypto/;publish=1</url>
+        </repository>
+    </distributionManagement>
 </project>

@@ -1,7 +1,7 @@
 {
   "package": {
     "name": "crypto",
-    "repo": "crypto",
+    "repo": "prasenjit-net/maven/crypto",
     "subject": "prasenjit-net",
     "desc": "Travis-CI pushed version",
     "website_url": "www.prasenjit.net",

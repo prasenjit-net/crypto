@@ -51,7 +51,7 @@ public class PBEEncryptor implements TextEncryptor {
     @Override
     public byte[] encrypt(byte[] data) {
         byte[] salt = new byte[8];
-        byte[] encripted = null;
+        byte[] encripted;
         secureRandom.nextBytes(salt);
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
@@ -72,7 +72,7 @@ public class PBEEncryptor implements TextEncryptor {
     @Override
     public byte[] decrypt(byte[] data) {
         byte[] salt = new byte[8];
-        byte[] encripted = null;
+        byte[] encripted;
         System.arraycopy(data, data.length - salt.length, salt, 0, salt.length);
         encripted = new byte[data.length - salt.length];
         System.arraycopy(data, 0, encripted, 0, data.length - salt.length);

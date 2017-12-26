@@ -16,7 +16,6 @@
 
 package net.prasenjit.crypto.core.endtoend;
 
-import net.prasenjit.crypto.core.Encryptor;
 import net.prasenjit.crypto.core.TextEncryptor;
 import org.junit.Test;
 

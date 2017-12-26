@@ -30,7 +30,7 @@ import java.util.Base64;
  * Created by prase on 11-06-2017.
  */
 public class SshaPasswordEncryptor implements PasswordEncryptor {
-    private SecureRandom secureRandom = new SecureRandom();
+    private final SecureRandom secureRandom = new SecureRandom();
 
     @Override
     public String encrypt(String plainPassword) {

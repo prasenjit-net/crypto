@@ -32,7 +32,7 @@ import java.security.SecureRandom;
 public class AbstractSymmetricEncryptor implements TextEncryptor {
     private final String algorithm;
     private final SecretKey key;
-    private SecureRandom secureRandom = new SecureRandom();
+    private final SecureRandom secureRandom = new SecureRandom();
 
     public AbstractSymmetricEncryptor(SecretKey key, String algorithm) {
         this.key = key;
@@ -69,8 +69,7 @@ public class AbstractSymmetricEncryptor implements TextEncryptor {
             System.arraycopy(data, data.length - ivBytes.length, ivBytes, 0, ivBytes.length);
             final IvParameterSpec iv = new IvParameterSpec(ivBytes);
             cipher.init(Cipher.DECRYPT_MODE, key, iv);
-            byte[] finalData = cipher.doFinal(data, 0, data.length - ivBytes.length);
-            return finalData;
+            return cipher.doFinal(data, 0, data.length - ivBytes.length);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException |
                 InvalidKeyException | BadPaddingException |
                 IllegalBlockSizeException | InvalidAlgorithmParameterException e) {

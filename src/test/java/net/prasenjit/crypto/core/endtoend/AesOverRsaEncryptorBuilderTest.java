@@ -17,7 +17,6 @@
 package net.prasenjit.crypto.core.endtoend;
 
 import net.prasenjit.crypto.core.E2eEncryptor;
-import net.prasenjit.crypto.core.impl.AesOverRsaEncryptor;
 import org.junit.Test;
 
 import java.security.KeyPair;

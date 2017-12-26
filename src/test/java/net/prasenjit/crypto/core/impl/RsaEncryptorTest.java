@@ -51,8 +51,4 @@ public class RsaEncryptorTest {
         assertEquals(data, decrypted);
     }
 
-    @Test
-    public void decrypt() throws Exception {
-    }
-
 }

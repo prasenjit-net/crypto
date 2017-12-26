@@ -137,7 +137,6 @@ public class CryptoKeyFactory {
         this.initilize();
         try {
             Key key = keyStore.getKey(alias, password);
-            KeyPair keyPair;
             if (key != null && key instanceof PrivateKey) {
                 java.security.cert.Certificate certificate = keyStore.getCertificate(alias);
                 if (certificate != null) {

@@ -14,25 +14,4 @@
  *    limitations under the License.
  */
 
-package net.prasenjit.crypto.core;
-
-
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-
-/**
- * Created by prase on 06-06-2017.
- */
-public interface TextEncryptor extends Encryptor {
-    default String encrypt(String data) {
-        byte[] encryptedData = encrypt(data.getBytes(StandardCharsets.UTF_8));
-
-        return Base64.getEncoder().encodeToString(encryptedData);
-    }
-
-    default String decrypt(String data) {
-        byte[] encryptedData = Base64.getDecoder().decode(data);
-        byte[] decryptedData = decrypt(encryptedData);
-        return new String(decryptedData, StandardCharsets.UTF_8);
-    }
-}
+package net.prasenjit.crypto.core.impl;

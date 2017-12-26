@@ -19,6 +19,7 @@ package net.prasenjit.crypto.core.impl;
 import net.prasenjit.crypto.core.PasswordEncryptor;
 import net.prasenjit.crypto.core.exception.CryptoException;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -36,7 +37,7 @@ public class SshaPasswordEncryptor implements PasswordEncryptor {
 
         byte[] salt = new byte[8];
         secureRandom.nextBytes(salt);
-        byte[] data = plainPassword.getBytes();
+        byte[] data = plainPassword.getBytes(StandardCharsets.UTF_8);
         byte[] digest = digest(data, salt);
         byte[] output = new byte[digest.length + salt.length];
         System.arraycopy(digest, 0, output, 0, digest.length);
@@ -51,7 +52,7 @@ public class SshaPasswordEncryptor implements PasswordEncryptor {
         byte[] digested = new byte[data.length - salt.length];
         System.arraycopy(data, data.length - salt.length, salt, 0, salt.length);
         System.arraycopy(data, 0, digested, 0, data.length - salt.length);
-        byte[] newData = digest(plainPassword.getBytes(), salt);
+        byte[] newData = digest(plainPassword.getBytes(StandardCharsets.UTF_8), salt);
         return Arrays.equals(digested, newData);
     }
 

@@ -17,6 +17,7 @@
 package net.prasenjit.crypto.core;
 
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
@@ -26,7 +27,7 @@ public interface SignerVerifier {
     byte[] sign(byte[] data);
 
     default String sign(String data) {
-        byte[] encryptedData = sign(data.getBytes());
+        byte[] encryptedData = sign(data.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(encryptedData);
     }
 
@@ -34,6 +35,6 @@ public interface SignerVerifier {
 
     default boolean verify(String data, String signature) {
         byte[] sign = Base64.getDecoder().decode(signature);
-        return verify(data.getBytes(), sign);
+        return verify(data.getBytes(StandardCharsets.UTF_8), sign);
     }
 }

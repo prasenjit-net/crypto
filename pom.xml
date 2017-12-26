@@ -20,9 +20,36 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.prasenjit.poc</groupId>
+    <groupId>net.prasenjit</groupId>
     <artifactId>crypto</artifactId>
     <version>1.0</version>
+    <name>Crypto</name>
+    <description>A easy to use cryptography library implementing common use cases for enterprise security
+        requirements.
+    </description>
+    <url>http://github.com/prasenjit-net/crypto</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Prasenjit Purohit</name>
+            <email>prasenjit@prasenjit.net</email>
+            <organization>Prasenjit.net</organization>
+            <organizationUrl>http://www.prasenjit.net</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/prasenjit-net/crypto.git</connection>
+        <developerConnection>scm:git:ssh://github.com:prasenjit-net/crypto.git</developerConnection>
+        <url>http://github.com/prasenjit-net/crypto/tree/master</url>
+    </scm>
 
     <dependencies>
         <dependency>
@@ -62,11 +89,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -83,14 +111,30 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
     <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
         <repository>
-            <id>bintray-prasenjit-net-maven</id>
-            <name>prasenjit-net-maven</name>
-            <url>https://api.bintray.com/maven/prasenjit-net/maven/crypto/;publish=1</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
 </project>

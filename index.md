@@ -58,3 +58,20 @@ String encrypt = encryptor.encrypt(data);
 String decrypt = encryptor.decrypt(encrypt);
 assertEquals(data, decrypt);
 ```
+
+## RSAEncryptor
+
+`net.prasenjit.crypto.impl.RsaEncryptor` is a asymmetric key bases text incryption. It uses a pair of Private Key and Public Key to perform the encryption. Its public key is used for encryption and private key is used for decryption. A text when encrypted with public key, can only be decrypted by private key. The opposite way encryption is not supported here as that doesnt make any sence. It can be used in
+
+```java
+KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+generator.initialize(1024);
+KeyPair keyPair = generator.generateKeyPair();
+RsaEncryptor encryptor = new RsaEncryptor(keyPair.getPublic());
+RsaEncryptor decryptor = new RsaEncryptor(keyPair.getPrivate());
+String data = "Hello World!";
+String encrypted = encryptor.encrypt(data);
+String decrypted = decryptor.decrypt(encrypted);
+assertEquals(data, decrypted);
+```
+

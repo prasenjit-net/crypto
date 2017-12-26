@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/prasenjit-net/crypto.svg?branch=master)](https://travis-ci.org/prasenjit-net/crypto)
 # Crypto
 
 This project is created to introduce beginners with the Cryptography World. 

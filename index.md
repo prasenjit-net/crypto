@@ -75,3 +75,73 @@ String decrypted = decryptor.decrypt(encrypted);
 assertEquals(data, decrypted);
 ```
 
+> This can only be used for small datas, as encrypting data larger that key length in vulnarable in RSA.
+
+## RsaSignerVerifier
+
+`net.prasenjit.crypto.impl.RsaSignerVerifier` is a data signer and verifier which use the RSA algorithm. Opposite way as RSA encription works. Its private ke is used to sign and public key can be used to verify a signature. Opposite to this is not supported. It can be used in
+
+```java
+KeyPair keyPair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
+RsaSignerVerifier signerVerifier = new RsaSignerVerifier(keyPair.getPublic(), keyPair.getPrivate());
+String data = "Hello World!";
+String sign = signerVerifier.sign(data);
+assertTrue(signerVerifier.verify(data, sign));
+```
+
+## SshaPasswordEncryptor
+
+`net.prasenjit.crypto.impl.SshaPasswordEncryptor` is a password digestor which uses salted sha-256 algorithm. This is generally secure to store in DB. It can be used in
+
+```java
+PasswordEncryptor encryptor = new SshaPasswordEncryptor();
+String plainPassword = "plain password";
+String encrypted = encryptor.encrypt(plainPassword);
+assertTrue(encryptor.testMatch(plainPassword, encrypted));
+assertFalse(encryptor.testMatch(plainPassword + "1", encrypted));
+```
+
+## RsaEncryptorBuilder
+
+`net.prasenjit.crypto.endtoend.RsaEncryptorBuilder` is a builder for RsaEncryptor to use in E2E scenario. It use a RSA key pair. Public key can be shared with client and private key is kept secret in server. A client can only encrypt data and server can decrypt that.It works in this way
+
+. Server creates a RSA key pair and share that with client
+. Now client can use the public key to encrypt data
+. Which server can decrypt with private key
+
+It can be used in
+
+```java
+String data = "Hello World!";
+KeyPair keyPair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
+TextEncryptor client = RsaEncryptorBuilder.client(keyPair.getPublic());
+TextEncryptor server = RsaEncryptorBuilder.server(keyPair.getPrivate());
+String output = server.decrypt(client.encrypt(data));
+assertEquals(data, output);
+```
+
+> This can only be used for small datas, as encrypting data larger that key length in vulnarable in RSA.
+> And also it can be used in one way, means only client can encrypt and server can decrypt.
+
+## AesOverRsaEncryptorBuilder
+
+`net.prasenjit.crypto.endtoend.AesOverRsaEncryptorBuilder` is a E2E encryption builder which uses a AES key, shared with server encrypted in server´s public key. It works in this way
+
+. Server creates a RSA key pair and share the public key with client
+. Client creates a AES key, encrypt with public RSA and sends to server
+. Server decrypts the AES key with private RSA key
+. Now both can use AES key to encrypt and decrypt data
+
+```java
+String data = "Hello World!";
+KeyPair keyPair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
+E2eEncryptor client = AesOverRsaEncryptorBuilder.client(keyPair.getPublic());
+E2eEncryptor server = AesOverRsaEncryptorBuilder.server(keyPair.getPrivate(), client.getEncryptedKey());
+String result = server.decrypt(client.encrypt(data));
+assertEquals(data, result);
+result = client.decrypt(server.encrypt(data));
+assertEquals(data, result);
+```
+
+> It can be used for lerger data as AES doesnt have such vulnarability.
+> And also it can be used in both way, means only client and server both can encrypt/decrypt.

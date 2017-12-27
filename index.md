@@ -12,6 +12,10 @@ To include this library as a dependency to your project use this coordinate.
 </dependency>
 ```
 
+## API Documentation
+
+API Documentation can be found here [here](apidoc/)
+
 ## Encryptor
 
 `net.prasenjit.crypto.Encryptor` is the base interface for all Encryption related features. It has two method like `encrypt` and `decrypt`.

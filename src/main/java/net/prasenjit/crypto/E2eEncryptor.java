@@ -17,8 +17,16 @@
 package net.prasenjit.crypto;
 
 /**
- * Created by prase on 17-06-2017.
+ * This interface extends the TextEncryptor to support the Secret key sharing. Created on 17-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public interface E2eEncryptor extends TextEncryptor {
+    /**
+     * <p>Encrypt and return the shared secret key in E2E encryption.</p>
+     *
+     * @return a {@link java.lang.String} encrypted SecretKey as a encoded text.
+     */
     String getEncryptedKey();
 }

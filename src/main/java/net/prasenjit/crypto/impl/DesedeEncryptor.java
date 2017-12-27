@@ -20,8 +20,16 @@ import javax.crypto.SecretKey;
 
 /**
  * Created by prase on 11-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public class DesedeEncryptor extends AbstractSymmetricEncryptor {
+    /**
+     * <p>Constructor for DesedeEncryptor.</p>
+     *
+     * @param key a {@link javax.crypto.SecretKey} object.
+     */
     public DesedeEncryptor(SecretKey key) {
         super(key, "DESede/CBC/PKCS5Padding");
     }

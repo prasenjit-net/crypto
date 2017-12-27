@@ -29,12 +29,20 @@ import java.util.Base64;
 
 /**
  * Created by prase on 10-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public class RsaEncryptor implements TextEncryptor {
     private final static String ALGORITHM = "RSA";
     private PrivateKey privateKey;
     private PublicKey publicKey;
 
+    /**
+     * <p>Constructor for RsaEncryptor.</p>
+     *
+     * @param privateKey a {@link java.security.PrivateKey} object.
+     */
     public RsaEncryptor(PrivateKey privateKey) {
         this.privateKey = privateKey;
         if (!(privateKey instanceof RSAKey)) {
@@ -42,6 +50,11 @@ public class RsaEncryptor implements TextEncryptor {
         }
     }
 
+    /**
+     * <p>Constructor for RsaEncryptor.</p>
+     *
+     * @param publicKey a {@link java.security.PublicKey} object.
+     */
     public RsaEncryptor(PublicKey publicKey) {
         this.publicKey = publicKey;
         if (!(publicKey instanceof RSAKey)) {
@@ -49,6 +62,12 @@ public class RsaEncryptor implements TextEncryptor {
         }
     }
 
+    /**
+     * <p>Constructor for RsaEncryptor.</p>
+     *
+     * @param publicKey a {@link java.security.PublicKey} object.
+     * @param privateKey a {@link java.security.PrivateKey} object.
+     */
     public RsaEncryptor(PublicKey publicKey, PrivateKey privateKey) {
         this.publicKey = publicKey;
         if (!(publicKey instanceof RSAKey)) {
@@ -60,6 +79,7 @@ public class RsaEncryptor implements TextEncryptor {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte[] encrypt(byte[] data) {
         if (publicKey == null) {
@@ -75,6 +95,7 @@ public class RsaEncryptor implements TextEncryptor {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte[] decrypt(byte[] data) {
         if (privateKey == null) {
@@ -90,6 +111,12 @@ public class RsaEncryptor implements TextEncryptor {
         }
     }
 
+    /**
+     * <p>wrapKey.</p>
+     *
+     * @param keyToWrap a {@link javax.crypto.SecretKey} object.
+     * @return a {@link java.lang.String} object.
+     */
     public String wrapKey(SecretKey keyToWrap) {
         if (publicKey == null) {
             throw new CryptoException("PublicKey not found for encryption");
@@ -104,6 +131,12 @@ public class RsaEncryptor implements TextEncryptor {
         }
     }
 
+    /**
+     * <p>unwrapKey.</p>
+     *
+     * @param wrappedKey a {@link java.lang.String} object.
+     * @return a {@link javax.crypto.SecretKey} object.
+     */
     public SecretKey unwrapKey(String wrappedKey) {
         if (privateKey == null) {
             throw new CryptoException("PrivateKey not found for decryption");

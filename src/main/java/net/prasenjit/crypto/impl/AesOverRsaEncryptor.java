@@ -25,6 +25,9 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by prase on 17-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public class AesOverRsaEncryptor implements E2eEncryptor {
     private final SecretKey secretKey;
@@ -32,6 +35,11 @@ public class AesOverRsaEncryptor implements E2eEncryptor {
     private final RsaEncryptor rsaEncryptor;
     private boolean serverMode = true;
 
+    /**
+     * <p>Constructor for AesOverRsaEncryptor.</p>
+     *
+     * @param rsaEncryptor a {@link net.prasenjit.crypto.impl.RsaEncryptor} object.
+     */
     public AesOverRsaEncryptor(RsaEncryptor rsaEncryptor) {
         this.rsaEncryptor = rsaEncryptor;
         this.serverMode = false;
@@ -43,12 +51,19 @@ public class AesOverRsaEncryptor implements E2eEncryptor {
         }
     }
 
+    /**
+     * <p>Constructor for AesOverRsaEncryptor.</p>
+     *
+     * @param rsaEncryptor a {@link net.prasenjit.crypto.impl.RsaEncryptor} object.
+     * @param encodedAesKey a {@link java.lang.String} object.
+     */
     public AesOverRsaEncryptor(RsaEncryptor rsaEncryptor, String encodedAesKey) {
         this.rsaEncryptor = rsaEncryptor;
         secretKey = rsaEncryptor.unwrapKey(encodedAesKey);
         this.aesEncryptor = new AesEncryptor(secretKey);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getEncryptedKey() {
         if (serverMode) {
@@ -57,11 +72,13 @@ public class AesOverRsaEncryptor implements E2eEncryptor {
         return this.rsaEncryptor.wrapKey(secretKey);
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte[] encrypt(byte[] data) {
         return this.aesEncryptor.encrypt(data);
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte[] decrypt(byte[] data) {
         return this.aesEncryptor.decrypt(data);

@@ -25,13 +25,29 @@ import java.security.PublicKey;
 
 /**
  * Created by prase on 17-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public class AesOverRsaEncryptorBuilder {
+    /**
+     * <p>client.</p>
+     *
+     * @param publicKey a {@link java.security.PublicKey} object.
+     * @return a {@link net.prasenjit.crypto.E2eEncryptor} object.
+     */
     public static E2eEncryptor client(PublicKey publicKey) {
         RsaEncryptor rsaEncryptor = new RsaEncryptor(publicKey);
         return new AesOverRsaEncryptor(rsaEncryptor);
     }
 
+    /**
+     * <p>server.</p>
+     *
+     * @param privateKey a {@link java.security.PrivateKey} object.
+     * @param encodedKey a {@link java.lang.String} object.
+     * @return a {@link net.prasenjit.crypto.E2eEncryptor} object.
+     */
     public static E2eEncryptor server(PrivateKey privateKey, String encodedKey) {
         RsaEncryptor rsaEncryptor = new RsaEncryptor(privateKey);
         return new AesOverRsaEncryptor(rsaEncryptor, encodedKey);

@@ -21,18 +21,47 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
- * Created by prase on 17-06-2017.
+ * An interface to perform data signing and verification. Created on 17-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public interface SignerVerifier {
+    /**
+     * <p>Sign a data.</p>
+     *
+     * @param data an array of {@link byte} to be signed.
+     * @return an array of {@link byte} as signature.
+     */
     byte[] sign(byte[] data);
 
+    /**
+     * <p>Sign a text with default <b>utf-8</b> charset.</p>
+     *
+     * @param data a {@link java.lang.String} to be signed.
+     * @return a {@link java.lang.String} signature Base64 encoded.
+     */
     default String sign(String data) {
         byte[] encryptedData = sign(data.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(encryptedData);
     }
 
+    /**
+     * <p>Verify a signature with data.</p>
+     *
+     * @param data an array of {@link byte} to be verified.
+     * @param signature an array of {@link byte} as signature.
+     * @return a boolean true if signature matches otherwise false.
+     */
     boolean verify(byte[] data, byte[] signature);
 
+    /**
+     * <p>Verify a signature with data using default <b>utf-8</b> charset.</p>
+     *
+     * @param data a {@link java.lang.String} to be verified.
+     * @param signature a {@link java.lang.String} Base64 encoded signature.
+     * @return a boolean true if signature matches otherwise false.
+     */
     default boolean verify(String data, String signature) {
         byte[] sign = Base64.getDecoder().decode(signature);
         return verify(data.getBytes(StandardCharsets.UTF_8), sign);

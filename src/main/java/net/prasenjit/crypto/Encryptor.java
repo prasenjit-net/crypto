@@ -17,10 +17,25 @@
 package net.prasenjit.crypto;
 
 /**
- * Created by prase on 06-06-2017.
+ * This interface is the base interface for all encryption feature. Created on 06-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public interface Encryptor {
+    /**
+     * <p>Encrypt the provided byte array.</p>
+     *
+     * @param data an array of {@link byte} data to be encrypted.
+     * @return an array of {@link byte} encrypted.
+     */
     byte[] encrypt(byte[] data);
 
+    /**
+     * <p>Decrypt the provided byte array.</p>
+     *
+     * @param data an array of {@link byte}, data to be decrypted.
+     * @return an array of {@link byte} decrypted.
+     */
     byte[] decrypt(byte[] data);
 }

@@ -31,6 +31,9 @@ import java.security.spec.InvalidKeySpecException;
 
 /**
  * Created by prase on 06-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public class PBEEncryptor implements TextEncryptor {
 
@@ -38,6 +41,11 @@ public class PBEEncryptor implements TextEncryptor {
     private final SecureRandom secureRandom = new SecureRandom();
     private final SecretKey secretKey;
 
+    /**
+     * <p>Constructor for PBEEncryptor.</p>
+     *
+     * @param password an array of {@link char} objects.
+     */
     public PBEEncryptor(final char[] password) {
         try {
             PBEKeySpec spec = new PBEKeySpec(password);
@@ -48,6 +56,7 @@ public class PBEEncryptor implements TextEncryptor {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte[] encrypt(byte[] data) {
         byte[] salt = new byte[8];
@@ -69,6 +78,7 @@ public class PBEEncryptor implements TextEncryptor {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte[] decrypt(byte[] data) {
         byte[] salt = new byte[8];

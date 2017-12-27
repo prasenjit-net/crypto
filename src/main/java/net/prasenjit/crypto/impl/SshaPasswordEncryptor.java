@@ -28,10 +28,14 @@ import java.util.Base64;
 
 /**
  * Created by prase on 11-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public class SshaPasswordEncryptor implements PasswordEncryptor {
     private final SecureRandom secureRandom = new SecureRandom();
 
+    /** {@inheritDoc} */
     @Override
     public String encrypt(String plainPassword) {
 
@@ -45,6 +49,7 @@ public class SshaPasswordEncryptor implements PasswordEncryptor {
         return Base64.getEncoder().encodeToString(output);
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean testMatch(String plainPassword, String encryptedPassword) {
         byte[] data = Base64.getDecoder().decode(encryptedPassword);

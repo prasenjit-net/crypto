@@ -18,13 +18,27 @@ package net.prasenjit.crypto.exception;
 
 /**
  * Created by prase on 09-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public class CryptoException extends RuntimeException {
 
+    /**
+     * <p>Constructor for CryptoException.</p>
+     *
+     * @param message a {@link java.lang.String} object.
+     */
     public CryptoException(String message) {
         super(message);
     }
 
+    /**
+     * <p>Constructor for CryptoException.</p>
+     *
+     * @param message a {@link java.lang.String} object.
+     * @param cause a {@link java.lang.Throwable} object.
+     */
     public CryptoException(String message, Throwable cause) {
         super(message, cause);
     }

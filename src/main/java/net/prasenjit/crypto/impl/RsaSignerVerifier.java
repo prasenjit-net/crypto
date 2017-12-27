@@ -23,28 +23,49 @@ import java.security.*;
 
 /**
  * Created by prase on 17-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public class RsaSignerVerifier implements SignerVerifier {
 
+    /** Constant <code>ALGORITHM="SHA1WithRSA"</code> */
     public static final String ALGORITHM = "SHA1WithRSA";
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
 
+    /**
+     * <p>Constructor for RsaSignerVerifier.</p>
+     *
+     * @param publicKey a {@link java.security.PublicKey} object.
+     * @param privateKey a {@link java.security.PrivateKey} object.
+     */
     public RsaSignerVerifier(PublicKey publicKey, PrivateKey privateKey) {
         this.publicKey = publicKey;
         this.privateKey = privateKey;
     }
 
+    /**
+     * <p>Constructor for RsaSignerVerifier.</p>
+     *
+     * @param publicKey a {@link java.security.PublicKey} object.
+     */
     public RsaSignerVerifier(PublicKey publicKey) {
         this.publicKey = publicKey;
         this.privateKey = null;
     }
 
+    /**
+     * <p>Constructor for RsaSignerVerifier.</p>
+     *
+     * @param privateKey a {@link java.security.PrivateKey} object.
+     */
     public RsaSignerVerifier(PrivateKey privateKey) {
         this.publicKey = null;
         this.privateKey = privateKey;
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte[] sign(byte[] data) {
         if (privateKey != null) {
@@ -60,6 +81,7 @@ public class RsaSignerVerifier implements SignerVerifier {
         throw new CryptoException("Private key not found, sign not supported");
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean verify(byte[] data, byte[] sign) {
         if (publicKey != null) {

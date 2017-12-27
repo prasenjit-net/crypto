@@ -17,22 +17,61 @@
 package net.prasenjit.crypto;
 
 
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
- * Created by prase on 06-06-2017.
+ * This interface is used to encrypt text data, considering the encoding. Created on 06-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public interface TextEncryptor extends Encryptor {
+    /**
+     * <p>Encrypt a text with default <b>utf-8</b> charset.</p>
+     *
+     * @param data a {@link java.lang.String} to be encrypted.
+     * @return a {@link java.lang.String} Base64 encoded encrypted text.
+     */
     default String encrypt(String data) {
-        byte[] encryptedData = encrypt(data.getBytes(StandardCharsets.UTF_8));
+        return encrypt(data, StandardCharsets.UTF_8);
+    }
 
+    /**
+     * <p>Decrypt a text with default <b>utf-8</b> charset.</p>
+     *
+     * @param data a {@link java.lang.String} encrypted and Base64 encoded.
+     * @return a {@link java.lang.String} as decrypted text.
+     */
+    default String decrypt(String data) {
+        return decrypt(data, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * <p>Encrypt a text with provided charset.</p>
+     *
+     * @param data a {@link java.lang.String} to be encrypted.
+     * @param charset a {@link java.nio.charset.Charset} to convert to byte array.
+     * @return a {@link java.lang.String} Base64 encoded encrypted text.
+     * @since 1.1
+     */
+    default String encrypt(String data, Charset charset){
+        byte[] encryptedData = encrypt(data.getBytes(charset));
         return Base64.getEncoder().encodeToString(encryptedData);
     }
 
-    default String decrypt(String data) {
+    /**
+     * <p>Decrypt a text with provided charset.</p>
+     *
+     * @param data a {@link java.lang.String} encrypted and Base64 encoded.
+     * @param charset a {@link java.nio.charset.Charset} to construct text.
+     * @return a {@link java.lang.String} as decrypted text.
+     * @since 1.1
+     */
+    default String decrypt(String data, Charset charset){
         byte[] encryptedData = Base64.getDecoder().decode(data);
         byte[] decryptedData = decrypt(encryptedData);
-        return new String(decryptedData, StandardCharsets.UTF_8);
+        return new String(decryptedData, charset);
     }
 }

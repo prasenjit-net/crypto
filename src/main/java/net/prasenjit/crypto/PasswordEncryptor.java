@@ -17,10 +17,26 @@
 package net.prasenjit.crypto;
 
 /**
- * Created by prase on 11-06-2017.
+ * A digester, which digest password to store in DB. And also it perform matching of password. Created on 11-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public interface PasswordEncryptor {
+    /**
+     * <p>Digest a plain text password.</p>
+     *
+     * @param plainPassword a {@link java.lang.String} password to digest.
+     * @return a {@link java.lang.String} digested password string.
+     */
     String encrypt(String plainPassword);
 
+    /**
+     * <p>Match a plain password with digested password for equality.</p>
+     *
+     * @param plainPassword a {@link java.lang.String} as clear text password.
+     * @param encryptedPassword a {@link java.lang.String} as digested password.
+     * @return a boolean true if it is a match, false otherwise.
+     */
     boolean testMatch(String plainPassword, String encryptedPassword);
 }

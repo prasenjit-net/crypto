@@ -20,8 +20,16 @@ import javax.crypto.SecretKey;
 
 /**
  * Created by prase on 11-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public class AesEncryptor extends AbstractSymmetricEncryptor {
+    /**
+     * <p>Constructor for AesEncryptor.</p>
+     *
+     * @param key a {@link javax.crypto.SecretKey} object.
+     */
     public AesEncryptor(SecretKey key) {
         super(key, "AES/CBC/PKCS5Padding");
     }

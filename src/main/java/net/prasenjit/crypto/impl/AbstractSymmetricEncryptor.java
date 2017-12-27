@@ -28,17 +28,27 @@ import java.security.SecureRandom;
 
 /**
  * Created by prase on 11-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public class AbstractSymmetricEncryptor implements TextEncryptor {
     private final String algorithm;
     private final SecretKey key;
     private final SecureRandom secureRandom = new SecureRandom();
 
+    /**
+     * <p>Constructor for AbstractSymmetricEncryptor.</p>
+     *
+     * @param key a {@link javax.crypto.SecretKey} object.
+     * @param algorithm a {@link java.lang.String} object.
+     */
     public AbstractSymmetricEncryptor(SecretKey key, String algorithm) {
         this.key = key;
         this.algorithm = algorithm;
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte[] encrypt(byte[] data) {
         try {
@@ -60,6 +70,7 @@ public class AbstractSymmetricEncryptor implements TextEncryptor {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte[] decrypt(byte[] data) {
         try {

@@ -31,6 +31,9 @@ import java.util.logging.Level;
 
 /**
  * Created by prase on 09-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 @Log
 @Builder
@@ -85,6 +88,13 @@ public class CryptoKeyFactory {
         }
     }
 
+    /**
+     * <p>getSecretKey.</p>
+     *
+     * @param alias a {@link java.lang.String} object.
+     * @param password an array of {@link char} objects.
+     * @return a {@link javax.crypto.SecretKey} object.
+     */
     public SecretKey getSecretKey(String alias, char[] password) {
         this.initilize();
         try {
@@ -98,6 +108,13 @@ public class CryptoKeyFactory {
         }
     }
 
+    /**
+     * <p>getPrivateKey.</p>
+     *
+     * @param alias a {@link java.lang.String} object.
+     * @param password an array of {@link char} objects.
+     * @return a {@link java.security.PrivateKey} object.
+     */
     public PrivateKey getPrivateKey(String alias, char[] password) {
         this.initilize();
         try {
@@ -111,6 +128,12 @@ public class CryptoKeyFactory {
         }
     }
 
+    /**
+     * <p>getPublicKey.</p>
+     *
+     * @param alias a {@link java.lang.String} object.
+     * @return a {@link java.security.PublicKey} object.
+     */
     public PublicKey getPublicKey(String alias) {
         this.initilize();
         try {
@@ -124,6 +147,12 @@ public class CryptoKeyFactory {
         }
     }
 
+    /**
+     * <p>getCertificate.</p>
+     *
+     * @param alias a {@link java.lang.String} object.
+     * @return a {@link java.security.cert.Certificate} object.
+     */
     public java.security.cert.Certificate getCertificate(String alias) {
         this.initilize();
         try {
@@ -133,6 +162,13 @@ public class CryptoKeyFactory {
         }
     }
 
+    /**
+     * <p>getKeyPair.</p>
+     *
+     * @param alias a {@link java.lang.String} object.
+     * @param password an array of {@link char} objects.
+     * @return a {@link java.security.KeyPair} object.
+     */
     public KeyPair getKeyPair(String alias, char[] password) {
         this.initilize();
         try {

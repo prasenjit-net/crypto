@@ -31,13 +31,29 @@ import java.security.spec.RSAPublicKeySpec;
 
 /**
  * Created by prase on 10-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
  */
 public class RsaEncryptorBuilder {
 
+    /**
+     * <p>client.</p>
+     *
+     * @param publicKey a {@link java.security.PublicKey} object.
+     * @return a {@link net.prasenjit.crypto.TextEncryptor} object.
+     */
     public static TextEncryptor client(PublicKey publicKey) {
         return new RsaEncryptor(publicKey);
     }
 
+    /**
+     * <p>client.</p>
+     *
+     * @param modulus a {@link java.math.BigInteger} object.
+     * @param publicExponent a {@link java.math.BigInteger} object.
+     * @return a {@link net.prasenjit.crypto.TextEncryptor} object.
+     */
     public static TextEncryptor client(BigInteger modulus, BigInteger publicExponent) {
         try {
             RSAPublicKeySpec spec = new RSAPublicKeySpec(modulus, publicExponent);
@@ -49,14 +65,35 @@ public class RsaEncryptorBuilder {
         }
     }
 
+    /**
+     * <p>client.</p>
+     *
+     * @param keyFactory a {@link net.prasenjit.crypto.store.CryptoKeyFactory} object.
+     * @param alias a {@link java.lang.String} object.
+     * @return a {@link net.prasenjit.crypto.TextEncryptor} object.
+     */
     public static TextEncryptor client(CryptoKeyFactory keyFactory, String alias) {
         return client(keyFactory.getPublicKey(alias));
     }
 
+    /**
+     * <p>server.</p>
+     *
+     * @param privateKey a {@link java.security.PrivateKey} object.
+     * @return a {@link net.prasenjit.crypto.TextEncryptor} object.
+     */
     public static TextEncryptor server(PrivateKey privateKey) {
         return new RsaEncryptor(privateKey);
     }
 
+    /**
+     * <p>server.</p>
+     *
+     * @param keyFactory a {@link net.prasenjit.crypto.store.CryptoKeyFactory} object.
+     * @param alias a {@link java.lang.String} object.
+     * @param password an array of {@link char} objects.
+     * @return a {@link net.prasenjit.crypto.TextEncryptor} object.
+     */
     public static TextEncryptor server(CryptoKeyFactory keyFactory, String alias, char[] password) {
         return new RsaEncryptor(keyFactory.getPrivateKey(alias, password));
     }

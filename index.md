@@ -25,10 +25,10 @@ To include this library as a dependency to your project use this coordinate.
 `net.prasenjit.crypto.E2eEncryptor` is a interface to perform `end to end` encryption typically required in many high secure system where password is required to be encrypted from browser to end authentication system for total security.
 
 ## PasswordEncryptor
-`net.prasenjit.crypto.PasswordEncryptor` is a special dygestor, which digest password to store in DB. And also it perform matching of password. This digested password is a one way transform and typically can never be converted to clear password.
+`net.prasenjit.crypto.PasswordEncryptor` is a special dygester, which digest password to store in DB. And also it perform matching of password. This digested password is a one way transform and typically can never be converted to clear password.
 
 ## SignerVerifier
-`net.prasenjit.crypto.SignerVerifier` is a interface to perform data signing and verification. It has method like `sign` and `verify`.
+`net.prasenjit.crypto.SignerVerifier` is an interface to perform data signing and verification. It has method like `sign` and `verify`.
 
 ## AesEncryptor
 

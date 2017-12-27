@@ -1,4 +1,4 @@
-# Get started with Crypto
+# Crypto - A Simple Encryption library
 
 ## Include This Library with Maven
 
@@ -16,7 +16,7 @@ To include this library as a dependency to your project use this coordinate.
 
 `net.prasenjit.crypto.Encryptor` is the base interface for all Encryption related features. It has two method like `encrypt` and `decrypt`.
 
-## Text Encryptor
+## TextEncryptor
 
 `net.prasenjit.crypto.TextEncryptor` is used to encrypt arbitary text or binary data. It extends `Encryptor`. It has additional method for text encoding.
 
@@ -132,7 +132,7 @@ String output = server.decrypt(client.encrypt(data));
 assertEquals(data, output);
 ```
 
-> This can only be used for small datas, as encrypting data larger that key length in vulnarable in RSA.
+> This can only be used for small data, as encrypting data larger that key length in vulnarable in RSA.
 > And also it can be used in one way, means only client can encrypt and server can decrypt.
 
 ## AesOverRsaEncryptorBuilder

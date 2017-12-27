@@ -1,5 +1,17 @@
 # Get started with Crypto
 
+## Include This Library with Maven
+
+To include this library as a dependency to your project use this coordinate.
+
+```xml
+<dependency>
+  <groupId>net.prasenjit</groupId>
+  <artifactId>crypto</artifactId>
+  <version>1.0</version>
+</dependency>
+```
+
 ## Encryptor
 
 `net.prasenjit.crypto.Encryptor` is the base interface for all Encryption related features. It has two method like `encrypt` and `decrypt`.

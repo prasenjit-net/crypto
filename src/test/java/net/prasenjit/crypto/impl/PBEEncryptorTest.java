@@ -18,7 +18,15 @@ package net.prasenjit.crypto.impl;
 
 import org.junit.Test;
 
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+
+import java.security.Key;
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by prase on 13-06-2017.
@@ -35,4 +43,15 @@ public class PBEEncryptorTest {
         assertEquals(data, decrypt);
     }
 
+    @Test
+    public void wrap() throws Exception {
+        SecretKey secretKey = KeyGenerator.getInstance("AES").generateKey();
+        PBEEncryptor encryptor = new PBEEncryptor("password".toCharArray());
+        String encrypt = encryptor.wrapKey(secretKey);
+
+        Key decrypted = encryptor.unwrapKey(encrypt, "AES", Cipher.SECRET_KEY);
+
+        assertEquals(decrypted.getAlgorithm(), secretKey.getAlgorithm());
+        assertTrue(Arrays.equals(decrypted.getEncoded(), secretKey.getEncoded()));
+    }
 }

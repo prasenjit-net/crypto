@@ -19,10 +19,14 @@ package net.prasenjit.crypto.impl;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import java.security.Key;
+import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by prase on 11-06-2017.
@@ -47,5 +51,16 @@ public class DesedeEncryptorTest {
         String decrypted = encryptor.decrypt(encrypted);
 
         assertEquals(data, decrypted);
+    }
+
+    @Test
+    public void wrap() throws Exception {
+        DesedeEncryptor encryptor = new DesedeEncryptor(secretKey);
+
+        String encrypted = encryptor.wrapKey(secretKey);
+        Key decrypted = encryptor.unwrapKey(encrypted, "DESede", Cipher.SECRET_KEY);
+
+        assertEquals(decrypted.getAlgorithm(), secretKey.getAlgorithm());
+        assertTrue(Arrays.equals(decrypted.getEncoded(), secretKey.getEncoded()));
     }
 }

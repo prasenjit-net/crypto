@@ -19,8 +19,10 @@ package net.prasenjit.crypto.impl;
 import net.prasenjit.crypto.E2eEncryptor;
 import net.prasenjit.crypto.exception.CryptoException;
 
+import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -59,7 +61,7 @@ public class AesOverRsaEncryptor implements E2eEncryptor {
      */
     public AesOverRsaEncryptor(RsaEncryptor rsaEncryptor, String encodedAesKey) {
         this.rsaEncryptor = rsaEncryptor;
-        secretKey = rsaEncryptor.unwrapKey(encodedAesKey);
+        secretKey = rsaEncryptor.unwrapKey(encodedAesKey, "AES", Cipher.SECRET_KEY);
         this.aesEncryptor = new AesEncryptor(secretKey);
     }
 
@@ -82,5 +84,15 @@ public class AesOverRsaEncryptor implements E2eEncryptor {
     @Override
     public byte[] decrypt(byte[] data) {
         return this.aesEncryptor.decrypt(data);
+    }
+
+    @Override
+    public String wrapKey(Key key) {
+        return this.rsaEncryptor.wrapKey(key);
+    }
+
+    @Override
+    public Key unwrapKey(String encryptedKey, String algorithm, int type) {
+        return this.rsaEncryptor.unwrapKey(encryptedKey, algorithm, type);
     }
 }

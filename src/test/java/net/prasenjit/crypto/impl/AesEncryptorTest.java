@@ -20,10 +20,15 @@ import net.prasenjit.crypto.TextEncryptor;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
+import java.security.Key;
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by prase on 11-06-2017.
@@ -49,6 +54,17 @@ public class AesEncryptorTest {
         String decrypted = encryptor.decrypt(encrypted);
 
         assertEquals(data, decrypted);
+    }
+
+    @Test
+    public void wrap() throws Exception {
+        TextEncryptor encryptor = new AesEncryptor(secretKey);
+
+        String encrypted = encryptor.wrapKey(secretKey);
+        Key output = encryptor.unwrapKey(encrypted, "AES", Cipher.SECRET_KEY);
+
+        assertEquals(secretKey.getAlgorithm(), output.getAlgorithm());
+        assertTrue(Arrays.equals(secretKey.getEncoded(), output.getEncoded()));
     }
 
 }

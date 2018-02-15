@@ -22,12 +22,10 @@ import net.prasenjit.crypto.exception.CryptoException;
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.security.*;
 import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Base64;
 
 /**
  * Created by prase on 06-06-2017.
@@ -56,7 +54,9 @@ public class PBEEncryptor implements TextEncryptor {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public byte[] encrypt(byte[] data) {
         byte[] salt = new byte[8];
@@ -78,7 +78,9 @@ public class PBEEncryptor implements TextEncryptor {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public byte[] decrypt(byte[] data) {
         byte[] salt = new byte[8];
@@ -95,6 +97,50 @@ public class PBEEncryptor implements TextEncryptor {
                 InvalidAlgorithmParameterException | InvalidKeyException | BadPaddingException |
                 IllegalBlockSizeException e) {
             throw new CryptoException("Decryption failed", e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String wrapKey(Key key) {
+        try {
+            byte[] salt = new byte[8];
+            secureRandom.nextBytes(salt);
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            AlgorithmParameterSpec paramSpec = new PBEParameterSpec(salt, 19);
+            cipher.init(Cipher.WRAP_MODE, secretKey, paramSpec);
+            byte[] encryptedBytes = cipher.wrap(key);
+            byte[] finalData = new byte[encryptedBytes.length + salt.length];
+            System.arraycopy(encryptedBytes, 0, finalData, 0, encryptedBytes.length);
+            System.arraycopy(salt, 0, finalData, encryptedBytes.length, salt.length);
+            return Base64.getEncoder().encodeToString(finalData);
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException |
+                InvalidKeyException |
+                IllegalBlockSizeException | InvalidAlgorithmParameterException e) {
+            throw new CryptoException("Wrap failed", e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Key unwrapKey(String encryptedKey, String algorithm, int type) {
+        try {
+            byte[] data = Base64.getDecoder().decode(encryptedKey);
+            byte[] salt = new byte[8];
+            byte[] encrypted = new byte[data.length - salt.length];
+            System.arraycopy(data, data.length - salt.length, salt, 0, salt.length);
+            System.arraycopy(data, 0, encrypted, 0, data.length - salt.length);
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            AlgorithmParameterSpec paramSpec = new PBEParameterSpec(salt, 19);
+            cipher.init(Cipher.UNWRAP_MODE, secretKey, paramSpec);
+            return cipher.unwrap(encrypted, algorithm, type);
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException |
+                InvalidKeyException | InvalidAlgorithmParameterException e) {
+            throw new CryptoException("Unwrap failed", e);
         }
     }
 }

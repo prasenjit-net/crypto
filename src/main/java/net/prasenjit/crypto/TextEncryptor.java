@@ -27,7 +27,7 @@ import java.util.Base64;
  * @author prasenjit
  * @version $Id: $Id
  */
-public interface TextEncryptor extends Encryptor {
+public interface TextEncryptor extends Encryptor, KeyEncryptor {
     /**
      * <p>Encrypt a text with default <b>utf-8</b> charset.</p>
      *

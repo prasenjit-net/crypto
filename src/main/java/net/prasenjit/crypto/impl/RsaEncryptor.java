@@ -20,10 +20,7 @@ import net.prasenjit.crypto.TextEncryptor;
 import net.prasenjit.crypto.exception.CryptoException;
 
 import javax.crypto.*;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.security.*;
 import java.security.interfaces.RSAKey;
 import java.util.Base64;
 
@@ -111,13 +108,9 @@ public class RsaEncryptor implements TextEncryptor {
         }
     }
 
-    /**
-     * <p>wrapKey.</p>
-     *
-     * @param keyToWrap a {@link javax.crypto.SecretKey} object.
-     * @return a {@link java.lang.String} object.
-     */
-    public String wrapKey(SecretKey keyToWrap) {
+    /** {@inheritDoc} */
+    @Override
+    public String wrapKey(Key keyToWrap) {
         if (publicKey == null) {
             throw new CryptoException("PublicKey not found for encryption");
         }
@@ -131,13 +124,8 @@ public class RsaEncryptor implements TextEncryptor {
         }
     }
 
-    /**
-     * <p>unwrapKey.</p>
-     *
-     * @param wrappedKey a {@link java.lang.String} object.
-     * @return a {@link javax.crypto.SecretKey} object.
-     */
-    public SecretKey unwrapKey(String wrappedKey) {
+    /** {@inheritDoc} */
+    public SecretKey unwrapKey(String wrappedKey, String algorithm, int type) {
         if (privateKey == null) {
             throw new CryptoException("PrivateKey not found for decryption");
         }
@@ -145,7 +133,7 @@ public class RsaEncryptor implements TextEncryptor {
             Cipher wrapper = Cipher.getInstance(ALGORITHM);
             wrapper.init(Cipher.UNWRAP_MODE, privateKey);
             byte[] wrappedByte = Base64.getDecoder().decode(wrappedKey);
-            return (SecretKey) wrapper.unwrap(wrappedByte, "AES", Cipher.SECRET_KEY);
+            return (SecretKey) wrapper.unwrap(wrappedByte, algorithm, type);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
             throw new CryptoException("Failed to wrap key", e);
         }

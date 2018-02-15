@@ -54,9 +54,7 @@ public class PBEEncryptor implements TextEncryptor {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public byte[] encrypt(byte[] data) {
         byte[] salt = new byte[8];
@@ -78,9 +76,7 @@ public class PBEEncryptor implements TextEncryptor {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public byte[] decrypt(byte[] data) {
         byte[] salt = new byte[8];
@@ -100,9 +96,7 @@ public class PBEEncryptor implements TextEncryptor {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String wrapKey(Key key) {
         try {
@@ -123,9 +117,7 @@ public class PBEEncryptor implements TextEncryptor {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public Key unwrapKey(String encryptedKey, String algorithm, int type) {
         try {

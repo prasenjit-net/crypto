@@ -46,9 +46,7 @@ public class AbstractSymmetricEncryptor implements TextEncryptor {
         this.algorithm = algorithm;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public byte[] encrypt(byte[] data) {
         try {
@@ -70,9 +68,7 @@ public class AbstractSymmetricEncryptor implements TextEncryptor {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public byte[] decrypt(byte[] data) {
         try {
@@ -90,9 +86,7 @@ public class AbstractSymmetricEncryptor implements TextEncryptor {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String wrapKey(Key key) {
         try {
@@ -114,9 +108,7 @@ public class AbstractSymmetricEncryptor implements TextEncryptor {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public Key unwrapKey(String encryptedKey, String algorithm, int type) {
         try {

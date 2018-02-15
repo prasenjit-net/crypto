@@ -86,11 +86,13 @@ public class AesOverRsaEncryptor implements E2eEncryptor {
         return this.aesEncryptor.decrypt(data);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String wrapKey(Key key) {
         return this.rsaEncryptor.wrapKey(key);
     }
 
+    /** {@inheritDoc} */
     @Override
     public Key unwrapKey(String encryptedKey, String algorithm, int type) {
         return this.rsaEncryptor.unwrapKey(encryptedKey, algorithm, type);

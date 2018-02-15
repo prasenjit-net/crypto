@@ -19,9 +19,31 @@ package net.prasenjit.crypto;
 import java.security.Key;
 
 
+/**
+ * <p>KeyEncryptor interface.</p>
+ *
+ * @author prasenjit
+ * @version $Id: $Id
+ * @since 1.2
+ */
 public interface KeyEncryptor {
 
+    /**
+     * <p>Wrap or encrypt a {@link java.security.Key} object and generates a {@link java.lang.String}.</p>
+     *
+     * @param key a {@link java.security.Key} object to be wrapped.
+     * @return a encrypted Base64 encoded {@link java.lang.String}.
+     */
     String wrapKey(Key key);
 
+    /**
+     * <p>Unwrap or decrypt a Base64 encoded encrypted {@link java.lang.String} and create a {@link java.security.Key}.</p>
+     *
+     * @param encryptedKey a Base64 encoded encrypted {@link java.lang.String}.
+     * @param algorithm    a of the original encrypted key.
+     * @param type         a integer representing key type. Values can be one of Cipher.SECRET_KEY
+     *                     or Cipher.PUBLIC_KEY or Cipher.PRIVATE_KEY.
+     * @return a decrypted {@link java.security.Key} object.
+     */
     Key unwrapKey(String encryptedKey, String algorithm, int type);
 }

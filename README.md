@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/prasenjit-net/crypto.svg?branch=master)](https://travis-ci.org/prasenjit-net/crypto)
+[![Maven Central](https://img.shields.io/maven-central/v/net.prasenjit/crypto.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22net.prasenjit%22%20AND%20a:%22crypto%22)
 # Crypto
 
 This project is created to introduce beginners with the Cryptography World. 

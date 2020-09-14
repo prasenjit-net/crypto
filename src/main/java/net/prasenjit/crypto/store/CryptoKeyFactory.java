@@ -16,8 +16,6 @@
 
 package net.prasenjit.crypto.store;
 
-import lombok.Builder;
-import lombok.extern.java.Log;
 import net.prasenjit.crypto.exception.CryptoException;
 
 import javax.crypto.SecretKey;
@@ -28,6 +26,7 @@ import java.net.URL;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by prase on 09-06-2017.
@@ -35,20 +34,34 @@ import java.util.logging.Level;
  * @author prasenjit
  * @version $Id: $Id
  */
-@Log
-@Builder
 public class CryptoKeyFactory {
+    private static final Logger log = Logger.getLogger(CryptoKeyFactory.class.getName());
     private String type = "JKS";
     private URL location;
-    private String locationStr;
+    private final String locationStr;
     private String password = "changeit";
     private String providerName;
     private Provider provider;
-    private String providerClassName;
+    private final String providerClassName;
 
     private transient KeyStore keyStore;
 
-    private synchronized void initilize() {
+    CryptoKeyFactory(String type, URL location, String locationStr, String password, String providerName, Provider provider, String providerClassName, KeyStore keyStore) {
+        this.type = type;
+        this.location = location;
+        this.locationStr = locationStr;
+        this.password = password;
+        this.providerName = providerName;
+        this.provider = provider;
+        this.providerClassName = providerClassName;
+        this.keyStore = keyStore;
+    }
+
+    public static CryptoKeyFactoryBuilder builder() {
+        return new CryptoKeyFactoryBuilder();
+    }
+
+    private synchronized void initialize() {
         try {
             if (provider != null) {
                 keyStore = KeyStore.getInstance(type, provider);
@@ -65,7 +78,7 @@ public class CryptoKeyFactory {
             }
         } catch (KeyStoreException | ClassNotFoundException | IllegalAccessException |
                 InstantiationException | NoSuchProviderException e) {
-            throw new CryptoException("Failed to instanciate key store", e);
+            throw new CryptoException("Failed to instantiate key store", e);
         }
         InputStream inputStream = null;
         try {
@@ -91,15 +104,15 @@ public class CryptoKeyFactory {
     /**
      * <p>getSecretKey.</p>
      *
-     * @param alias a {@link java.lang.String} object.
+     * @param alias    a {@link java.lang.String} object.
      * @param password an array of {@link char} objects.
      * @return a {@link javax.crypto.SecretKey} object.
      */
     public SecretKey getSecretKey(String alias, char[] password) {
-        this.initilize();
+        this.initialize();
         try {
             Key key = keyStore.getKey(alias, password);
-            if (key != null && key instanceof SecretKey) {
+            if (key instanceof SecretKey) {
                 return (SecretKey) key;
             }
             return null;
@@ -111,15 +124,15 @@ public class CryptoKeyFactory {
     /**
      * <p>getPrivateKey.</p>
      *
-     * @param alias a {@link java.lang.String} object.
+     * @param alias    a {@link java.lang.String} object.
      * @param password an array of {@link char} objects.
      * @return a {@link java.security.PrivateKey} object.
      */
     public PrivateKey getPrivateKey(String alias, char[] password) {
-        this.initilize();
+        this.initialize();
         try {
             Key key = keyStore.getKey(alias, password);
-            if (key != null && key instanceof PrivateKey) {
+            if (key instanceof PrivateKey) {
                 return (PrivateKey) key;
             }
             return null;
@@ -135,7 +148,7 @@ public class CryptoKeyFactory {
      * @return a {@link java.security.PublicKey} object.
      */
     public PublicKey getPublicKey(String alias) {
-        this.initilize();
+        this.initialize();
         try {
             java.security.cert.Certificate certificate = keyStore.getCertificate(alias);
             if (certificate != null) {
@@ -154,7 +167,7 @@ public class CryptoKeyFactory {
      * @return a {@link java.security.cert.Certificate} object.
      */
     public java.security.cert.Certificate getCertificate(String alias) {
-        this.initilize();
+        this.initialize();
         try {
             return keyStore.getCertificate(alias);
         } catch (KeyStoreException e) {
@@ -165,15 +178,15 @@ public class CryptoKeyFactory {
     /**
      * <p>getKeyPair.</p>
      *
-     * @param alias a {@link java.lang.String} object.
+     * @param alias    a {@link java.lang.String} object.
      * @param password an array of {@link char} objects.
      * @return a {@link java.security.KeyPair} object.
      */
     public KeyPair getKeyPair(String alias, char[] password) {
-        this.initilize();
+        this.initialize();
         try {
             Key key = keyStore.getKey(alias, password);
-            if (key != null && key instanceof PrivateKey) {
+            if (key instanceof PrivateKey) {
                 java.security.cert.Certificate certificate = keyStore.getCertificate(alias);
                 if (certificate != null) {
                     return new KeyPair(certificate.getPublicKey(), (PrivateKey) key);
@@ -182,6 +195,68 @@ public class CryptoKeyFactory {
             throw new CryptoException("No key pair available for alias " + alias);
         } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e) {
             throw new CryptoException("Failed to extract private key", e);
+        }
+    }
+
+    public static class CryptoKeyFactoryBuilder {
+        private String type;
+        private URL location;
+        private String locationStr;
+        private String password;
+        private String providerName;
+        private Provider provider;
+        private String providerClassName;
+        private KeyStore keyStore;
+
+        CryptoKeyFactoryBuilder() {
+        }
+
+        public CryptoKeyFactory.CryptoKeyFactoryBuilder type(String type) {
+            this.type = type;
+            return this;
+        }
+
+        public CryptoKeyFactory.CryptoKeyFactoryBuilder location(URL location) {
+            this.location = location;
+            return this;
+        }
+
+        public CryptoKeyFactory.CryptoKeyFactoryBuilder locationStr(String locationStr) {
+            this.locationStr = locationStr;
+            return this;
+        }
+
+        public CryptoKeyFactory.CryptoKeyFactoryBuilder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public CryptoKeyFactory.CryptoKeyFactoryBuilder providerName(String providerName) {
+            this.providerName = providerName;
+            return this;
+        }
+
+        public CryptoKeyFactory.CryptoKeyFactoryBuilder provider(Provider provider) {
+            this.provider = provider;
+            return this;
+        }
+
+        public CryptoKeyFactory.CryptoKeyFactoryBuilder providerClassName(String providerClassName) {
+            this.providerClassName = providerClassName;
+            return this;
+        }
+
+        public CryptoKeyFactory.CryptoKeyFactoryBuilder keyStore(KeyStore keyStore) {
+            this.keyStore = keyStore;
+            return this;
+        }
+
+        public CryptoKeyFactory build() {
+            return new CryptoKeyFactory(type, location, locationStr, password, providerName, provider, providerClassName, keyStore);
+        }
+
+        public String toString() {
+            return "CryptoKeyFactory.CryptoKeyFactoryBuilder(type=" + this.type + ", location=" + this.location + ", locationStr=" + this.locationStr + ", password=" + this.password + ", providerName=" + this.providerName + ", provider=" + this.provider + ", providerClassName=" + this.providerClassName + ", keyStore=" + this.keyStore + ")";
         }
     }
 }

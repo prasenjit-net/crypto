@@ -26,7 +26,7 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Publish to Maven Central
-        run: mvn -B deploy --file pom.xml
+        run: mvn -B deploy --file pom.xml -Prelease
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}

@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.Base64;
 
 /**
- * Created by prase on 11-06-2017.
+ * Created by prasenjit on 11-06-2017.
  *
  * @author prasenjit
  * @version $Id: $Id
@@ -67,7 +67,7 @@ public class SshaPasswordEncryptor implements PasswordEncryptor {
             messageDigest.update(data);
             return messageDigest.digest(salt);
         } catch (NoSuchAlgorithmException e) {
-            throw new CryptoException("Failed to digest password");
+            throw new CryptoException("Failed to digest password", e);
         }
     }
 }

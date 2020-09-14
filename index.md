@@ -8,7 +8,7 @@ To include this library as a dependency to your project use this coordinate.
 <dependency>
   <groupId>net.prasenjit</groupId>
   <artifactId>crypto</artifactId>
-  <version>1.1</version>
+  <version>1.2</version>
 </dependency>
 ```
 

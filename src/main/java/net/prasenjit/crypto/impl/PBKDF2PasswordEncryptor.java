@@ -33,6 +33,7 @@ import java.util.Base64;
  *
  * @author prasenjit
  * @version $Id: $Id
+ * @since 1.3
  */
 public class PBKDF2PasswordEncryptor implements PasswordEncryptor {
     private final SecureRandom secureRandom;

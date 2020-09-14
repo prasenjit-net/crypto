@@ -57,6 +57,11 @@ public class CryptoKeyFactory {
         this.keyStore = keyStore;
     }
 
+    /**
+     * <p>builder.</p>
+     *
+     * @return a {@link net.prasenjit.crypto.store.CryptoKeyFactory.CryptoKeyFactoryBuilder} object.
+     */
     public static CryptoKeyFactoryBuilder builder() {
         return new CryptoKeyFactoryBuilder();
     }

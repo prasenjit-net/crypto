@@ -46,8 +46,8 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/prasenjit-net/crypto.git</connection>
-        <developerConnection>scm:git:ssh://github.com:prasenjit-net/crypto.git</developerConnection>
+        <connection>scm:git:https://github.com/prasenjit-net/crypto.git</connection>
+        <developerConnection>scm:git:https://github.com/prasenjit-net/crypto.git</developerConnection>
         <url>http://github.com/prasenjit-net/crypto/tree/master</url>
     </scm>
 

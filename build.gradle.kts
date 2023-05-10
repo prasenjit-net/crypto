@@ -80,8 +80,8 @@ publishing {
             val repoUsername: String? by project
             val repoPassword: String? by project
             name = "OSSRH"
-            val snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            val releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            val snapshotRepo = "https://oss.sonatype.org/content/repositories/snapshots/"
+            val releaseRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
             url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotRepo else releaseRepo)
             credentials {
                 username = repoUsername

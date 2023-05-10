@@ -14,4 +14,9 @@
  *    limitations under the License.
  */
 
+/**
+ * package for store implementation for keys
+ *
+ * @author Prasenjit Purohit
+ */
 package net.prasenjit.crypto.store;

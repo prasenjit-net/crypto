@@ -16,7 +16,7 @@
 
 package net.prasenjit.crypto.impl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -25,8 +25,7 @@ import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by prase on 13-06-2017.

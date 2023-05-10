@@ -14,4 +14,9 @@
  *    limitations under the License.
  */
 
+/**
+ * implementation package for crypto should not be accessed directly
+ *
+ * @author Prasenjit Purohit
+ */
 package net.prasenjit.crypto.impl;

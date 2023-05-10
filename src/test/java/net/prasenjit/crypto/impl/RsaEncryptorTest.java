@@ -16,13 +16,13 @@
 
 package net.prasenjit.crypto.impl;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by prase on 10-06-2017.
@@ -31,7 +31,7 @@ public class RsaEncryptorTest {
 
     private KeyPair keyPair;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
         generator.initialize(1024);

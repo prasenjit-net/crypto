@@ -17,12 +17,12 @@
 package net.prasenjit.crypto.endtoend;
 
 import net.prasenjit.crypto.TextEncryptor;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by prase on 17-06-2017.

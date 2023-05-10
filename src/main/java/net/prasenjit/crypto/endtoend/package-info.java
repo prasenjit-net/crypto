@@ -14,4 +14,9 @@
  *    limitations under the License.
  */
 
+/**
+ * package for end-to-end encryption functionality
+ *
+ * @author Prasenjit Purohit
+ */
 package net.prasenjit.crypto.endtoend;

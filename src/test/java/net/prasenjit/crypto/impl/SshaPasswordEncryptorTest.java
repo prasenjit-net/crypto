@@ -17,10 +17,9 @@
 package net.prasenjit.crypto.impl;
 
 import net.prasenjit.crypto.PasswordEncryptor;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by prase on 11-06-2017.

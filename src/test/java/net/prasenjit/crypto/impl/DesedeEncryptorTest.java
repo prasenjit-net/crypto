@@ -16,8 +16,8 @@
 
 package net.prasenjit.crypto.impl;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -25,8 +25,7 @@ import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by prase on 11-06-2017.
@@ -34,7 +33,7 @@ import static org.junit.Assert.assertTrue;
 public class DesedeEncryptorTest {
     private SecretKey secretKey;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         KeyGenerator generator = KeyGenerator.getInstance("DESede");
         generator.init(168);

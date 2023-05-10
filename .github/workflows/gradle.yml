@@ -1,5 +1,4 @@
 name: Java CI with Maven
-description: A CI build for Crypto
 on: [push]
 
 jobs:

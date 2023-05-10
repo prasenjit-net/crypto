@@ -16,10 +16,17 @@ jobs:
         uses: gradle/gradle-build-action@v2.4.2
         with:
           arguments: build
+      - id: install-secret-key
+        name: Install gpg secret key
+        run: |
+          # Install gpg secret key
+          cat <(echo -e "${{ secrets.ORG_GRADLE_PROJECT_SIGNING_KEY }}") | gpg --batch --import
+          # Verify gpg secret key
+          gpg --list-secret-keys --keyid-format LONG
       - name: Publish to MavenLocal
         uses: gradle/gradle-build-action@v2.4.2
         with:
-          arguments: build publishToMavenLocal
+          arguments: build publishToMavenLocal -Psigning.password=${{ secrets.ORG_GRADLE_PROJECT_SIGNING_PASSWORD }}
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNING_PASSWORD }}

@@ -19,7 +19,7 @@ jobs:
       - name: Publish to MavenLocal
         uses: gradle/gradle-build-action@v2.4.2
         with:
-          arguments: publishToMavenLocal
+          arguments: build publishToMavenLocal
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNING_PASSWORD }}

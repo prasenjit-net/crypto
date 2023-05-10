@@ -24,4 +24,7 @@ jobs:
       - name: Publish to MavenLocal
         uses: gradle/gradle-build-action@v2.4.2
         with:
-          arguments: build publishToMavenLocal
+          arguments: build publish
+        env:
+          ORG_GRADLE_PROJECT_repoUsername: ${{ secrets.OSSRH_USERNAME }}
+          ORG_GRADLE_PROJECT_repoPassword: ${{ secrets.OSSRH_TOKEN }}

@@ -1,5 +1,3 @@
-import java.net.URI
-
 /*
  *    Copyright 2023 Prasenjit Purohit
  *
@@ -97,6 +95,7 @@ signing {
     val signingKey: String? by project
     val signingPassword: String? by project
     val signingKeyId: String? by project
-    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    println(signingKey)
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications["maven"])
 }

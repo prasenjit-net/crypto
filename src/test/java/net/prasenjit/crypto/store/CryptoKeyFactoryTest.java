@@ -14,18 +14,15 @@
  *    limitations under the License.
  */
 
-rootProject.name = "crypto"
+package net.prasenjit.crypto.store;
 
-plugins {
-    id("com.gradle.enterprise") version("3.9")
-}
+import org.junit.jupiter.api.Test;
 
-gradleEnterprise {
-    if (System.getenv("CI") != null) {
-        buildScan {
-            publishAlways()
-            termsOfServiceUrl = "https://gradle.com/terms-of-service"
-            termsOfServiceAgree = "yes"
-        }
+import static org.junit.jupiter.api.Assertions.*;
+
+class CryptoKeyFactoryTest {
+
+    @Test
+    void builder() {
     }
 }

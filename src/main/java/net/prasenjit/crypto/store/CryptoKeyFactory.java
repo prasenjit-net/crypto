@@ -203,6 +203,9 @@ public class CryptoKeyFactory {
         }
     }
 
+    /**
+     * Key factory builder
+     */
     public static class CryptoKeyFactoryBuilder {
         private String type;
         private URL location;
@@ -246,11 +249,21 @@ public class CryptoKeyFactory {
             return this;
         }
 
+        /**
+         * Class name for security provider
+         * @param providerClassName fully qualifies class name
+         * @return a {@link CryptoKeyFactoryBuilder} the same instance
+         */
         public CryptoKeyFactory.CryptoKeyFactoryBuilder providerClassName(String providerClassName) {
             this.providerClassName = providerClassName;
             return this;
         }
 
+        /**
+         * Uses a keystore
+         * @param keyStore key store to use
+         * @return a {@link CryptoKeyFactoryBuilder} the same instance
+         */
         public CryptoKeyFactory.CryptoKeyFactoryBuilder keyStore(KeyStore keyStore) {
             this.keyStore = keyStore;
             return this;

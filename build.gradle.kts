@@ -17,6 +17,7 @@ plugins {
     `java-library`
     `maven-publish`
     signing
+    `project-report`
 }
 
 group = "net.prasenjit"
@@ -25,7 +26,8 @@ version = "1.5-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.9.3"))
+    val junitVersion: String? by project
+    testImplementation(platform("org.junit:junit-bom:${junitVersion}"))
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
 }

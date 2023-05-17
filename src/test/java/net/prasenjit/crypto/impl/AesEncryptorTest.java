@@ -31,11 +31,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by prase on 11-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
+ * @since 1.5
  */
 public class AesEncryptorTest {
 
     private SecretKey secretKey;
 
+    /**
+     * <p>setUp.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @BeforeEach
     public void setUp() throws Exception {
         KeyGenerator generator = KeyGenerator.getInstance("AES");
@@ -43,6 +52,11 @@ public class AesEncryptorTest {
         secretKey = generator.generateKey();
     }
 
+    /**
+     * <p>encrypt.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void encrypt() throws Exception {
         TextEncryptor encryptor = new AesEncryptor(secretKey);
@@ -55,6 +69,11 @@ public class AesEncryptorTest {
         assertEquals(data, decrypted);
     }
 
+    /**
+     * <p>wrap.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void wrap() throws Exception {
         TextEncryptor encryptor = new AesEncryptor(secretKey);

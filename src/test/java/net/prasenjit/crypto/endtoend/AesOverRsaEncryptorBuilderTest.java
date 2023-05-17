@@ -27,8 +27,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by prase on 17-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
+ * @since 1.5
  */
 public class AesOverRsaEncryptorBuilderTest {
+    /**
+     * <p>client.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void client() throws Exception {
         String data = "Hello World!";

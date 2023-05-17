@@ -29,8 +29,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by prase on 13-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
+ * @since 1.5
  */
 public class PBEEncryptorTest {
+    /**
+     * <p>process.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void process() throws Exception {
         String data = "My precious data";
@@ -42,6 +51,11 @@ public class PBEEncryptorTest {
         assertEquals(data, decrypt);
     }
 
+    /**
+     * <p>wrap.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void wrap() throws Exception {
         SecretKey secretKey = KeyGenerator.getInstance("AES").generateKey();

@@ -23,8 +23,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by prase on 11-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
+ * @since 1.5
  */
 public class SshaPasswordEncryptorTest {
+    /**
+     * <p>encrypt.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void encrypt() throws Exception {
         PasswordEncryptor encryptor = new SshaPasswordEncryptor();

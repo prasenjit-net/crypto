@@ -26,11 +26,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by prase on 10-06-2017.
+ *
+ * @author prasenjit
+ * @version $Id: $Id
+ * @since 1.5
  */
 public class RsaEncryptorTest {
 
     private KeyPair keyPair;
 
+    /**
+     * <p>setUp.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @BeforeEach
     public void setUp() throws Exception {
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
@@ -38,6 +47,11 @@ public class RsaEncryptorTest {
         keyPair = generator.generateKeyPair();
     }
 
+    /**
+     * <p>encrypt.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
     @Test
     public void encrypt() throws Exception {
         RsaEncryptor encryptor = new RsaEncryptor(keyPair.getPublic());

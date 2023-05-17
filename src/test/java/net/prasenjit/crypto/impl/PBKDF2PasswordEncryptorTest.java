@@ -20,8 +20,18 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * <p>PBKDF2PasswordEncryptorTest class.</p>
+ *
+ * @author prasenjit
+ * @version $Id: $Id
+ * @since 1.5
+ */
 public class PBKDF2PasswordEncryptorTest {
 
+    /**
+     * <p>testMatch.</p>
+     */
     @Test
     public void testMatch() {
         String plainPassword = "some string password";

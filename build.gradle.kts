@@ -20,6 +20,7 @@ plugins {
     `project-report`
 }
 
+description = "A Cryptographic Operation Utility Library"
 group = "net.prasenjit"
 version = "1.5-SNAPSHOT"
 
@@ -33,8 +34,20 @@ dependencies {
 }
 
 java {
-//    withJavadocJar()
+    withJavadocJar()
     withSourcesJar()
+}
+
+tasks.jar {
+    manifest {
+        attributes(
+                mapOf(
+                        "Implementation-Title" to project.name,
+                        "Implementation-Version" to project.version,
+                        "Description" to project.description
+                )
+        )
+    }
 }
 
 tasks.named<Test>("test") {
@@ -94,6 +107,8 @@ publishing {
 }
 
 signing {
-    useGpgCmd()
-    sign(publishing.publications["maven"])
+    if (System.getenv("CI") != null) {
+        useGpgCmd()
+    }
+    sign(publishing.publications)
 }

@@ -36,14 +36,13 @@ import java.util.logging.Logger;
  */
 public class CryptoKeyFactory {
     private static final Logger log = Logger.getLogger(CryptoKeyFactory.class.getName());
+    private final String locationStr;
+    private final String providerClassName;
     private String type = "JKS";
     private URL location;
-    private final String locationStr;
     private String password = "changeit";
     private String providerName;
     private Provider provider;
-    private final String providerClassName;
-
     private transient KeyStore keyStore;
 
     CryptoKeyFactory(String type, URL location, String locationStr, String password, String providerName, Provider provider, String providerClassName, KeyStore keyStore) {
@@ -82,7 +81,7 @@ public class CryptoKeyFactory {
                 keyStore = KeyStore.getInstance(type);
             }
         } catch (KeyStoreException | ClassNotFoundException | IllegalAccessException |
-                InstantiationException | NoSuchProviderException e) {
+                 InstantiationException | NoSuchProviderException e) {
             throw new CryptoException("Failed to instantiate key store", e);
         }
         InputStream inputStream = null;
@@ -205,6 +204,7 @@ public class CryptoKeyFactory {
 
     /**
      * Key factory builder
+     * @author Prasenjit Purohit
      */
     public static class CryptoKeyFactoryBuilder {
         private String type;
@@ -216,34 +216,73 @@ public class CryptoKeyFactory {
         private String providerClassName;
         private KeyStore keyStore;
 
+        /**
+         * protected constructor
+         */
         CryptoKeyFactoryBuilder() {
         }
 
+        /**
+         * set the type of the key store
+         *
+         * @param type keystore type
+         * @return this instance
+         */
         public CryptoKeyFactory.CryptoKeyFactoryBuilder type(String type) {
             this.type = type;
             return this;
         }
 
+        /**
+         * set the location of the key store
+         *
+         * @param location keystore location as URL
+         * @return this instance
+         */
         public CryptoKeyFactory.CryptoKeyFactoryBuilder location(URL location) {
             this.location = location;
             return this;
         }
 
+        /**
+         * set the location of the key store
+         *
+         * @param locationStr keystore location as String
+         * @return this instance
+         */
         public CryptoKeyFactory.CryptoKeyFactoryBuilder locationStr(String locationStr) {
             this.locationStr = locationStr;
             return this;
         }
 
+        /**
+         * set the location of the key store
+         *
+         * @param password keystore location as String
+         * @return this instance
+         */
         public CryptoKeyFactory.CryptoKeyFactoryBuilder password(String password) {
             this.password = password;
             return this;
         }
 
+        /**
+         * Specify name of the security provider
+         *
+         * @param providerName provider name
+         * @return this instance
+         */
         public CryptoKeyFactory.CryptoKeyFactoryBuilder providerName(String providerName) {
             this.providerName = providerName;
             return this;
         }
 
+        /**
+         * Specify the security provider
+         *
+         * @param provider security provider instance
+         * @return this instance
+         */
         public CryptoKeyFactory.CryptoKeyFactoryBuilder provider(Provider provider) {
             this.provider = provider;
             return this;
@@ -251,6 +290,7 @@ public class CryptoKeyFactory {
 
         /**
          * Class name for security provider
+         *
          * @param providerClassName fully qualifies class name
          * @return a {@link CryptoKeyFactoryBuilder} the same instance
          */
@@ -261,6 +301,7 @@ public class CryptoKeyFactory {
 
         /**
          * Uses a keystore
+         *
          * @param keyStore key store to use
          * @return a {@link CryptoKeyFactoryBuilder} the same instance
          */
@@ -269,10 +310,20 @@ public class CryptoKeyFactory {
             return this;
         }
 
+        /**
+         * Build and initialize key factory
+         *
+         * @return new {@link CryptoKeyFactory} instance
+         */
         public CryptoKeyFactory build() {
             return new CryptoKeyFactory(type, location, locationStr, password, providerName, provider, providerClassName, keyStore);
         }
 
+        /**
+         * a string for logging the {@link CryptoKeyFactoryBuilder}
+         *
+         * @return text to log properties
+         */
         public String toString() {
             return "CryptoKeyFactory.CryptoKeyFactoryBuilder(type=" + this.type + ", location=" + this.location + ", locationStr=" + this.locationStr + ", password=" + this.password + ", providerName=" + this.providerName + ", provider=" + this.provider + ", providerClassName=" + this.providerClassName + ", keyStore=" + this.keyStore + ")";
         }

@@ -20,9 +20,12 @@ plugins {
     `project-report`
 }
 
+val cryptoVersion: String? by project
+println(cryptoVersion)
+
 description = "A Cryptographic Operation Utility Library"
 group = "net.prasenjit"
-version = "1.5-SNAPSHOT"
+version = cryptoVersion!!
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 

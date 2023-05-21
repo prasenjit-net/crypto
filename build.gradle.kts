@@ -30,10 +30,13 @@ version = cryptoVersion!!
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
+    val slf4jVersion: String? by project
     val junitVersion: String? by project
+    api("org.slf4j:slf4j-api:${slf4jVersion}")
     testImplementation(platform("org.junit:junit-bom:${junitVersion}"))
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("ch.qos.logback:logback-core:1.4.7")
 }
 
 java {

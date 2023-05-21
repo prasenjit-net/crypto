@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Java CI with Gradle
 on: [push]
 
 jobs:
@@ -16,16 +16,3 @@ jobs:
         uses: gradle/gradle-build-action@v2.4.2
         with:
           arguments: build
-      - uses: crazy-max/ghaction-import-gpg@v5
-        name: Install gpg secret key
-        with:
-          gpg_private_key: ${{ secrets.PGP_PRIVATE_KEY }}
-          passphrase: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGPASSWORD }}
-      - name: Publish to MavenLocal
-        uses: gradle/gradle-build-action@v2.4.2
-        with:
-          arguments: publish
-        env:
-          ORG_GRADLE_PROJECT_repoUsername: ${{ secrets.OSSRH_USERNAME }}
-          ORG_GRADLE_PROJECT_repoPassword: ${{ secrets.OSSRH_TOKEN }}
-          CI: Github

@@ -21,6 +21,8 @@ import net.prasenjit.crypto.exception.CryptoException;
 import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
 import java.security.*;
@@ -29,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by prase on 09-06-2017.
+ * A factory class for easy access to java keystore
  *
  * @author prasenjit
  * @version $Id: $Id
@@ -45,7 +47,8 @@ public class CryptoKeyFactory {
     private Provider provider;
     private transient KeyStore keyStore;
 
-    CryptoKeyFactory(String type, URL location, String locationStr, String password, String providerName, Provider provider, String providerClassName, KeyStore keyStore) {
+    CryptoKeyFactory(String type, URL location, String locationStr, String password, String providerName,
+                     Provider provider, String providerClassName, KeyStore keyStore) {
         this.type = type;
         this.location = location;
         this.locationStr = locationStr;
@@ -70,7 +73,7 @@ public class CryptoKeyFactory {
             if (provider != null) {
                 keyStore = KeyStore.getInstance(type, provider);
             } else if (providerClassName != null) {
-                Provider loadedProvider = (Provider) Class.forName(providerClassName).newInstance();
+                Provider loadedProvider = getProviderInstance();
                 Security.addProvider(loadedProvider);
                 provider = loadedProvider;
                 providerName = loadedProvider.getName();
@@ -80,8 +83,8 @@ public class CryptoKeyFactory {
             } else {
                 keyStore = KeyStore.getInstance(type);
             }
-        } catch (KeyStoreException | ClassNotFoundException | IllegalAccessException |
-                 InstantiationException | NoSuchProviderException e) {
+        } catch (KeyStoreException | ClassNotFoundException | IllegalAccessException | InstantiationException |
+                 NoSuchProviderException | NoSuchMethodException | InvocationTargetException e) {
             throw new CryptoException("Failed to instantiate key store", e);
         }
         InputStream inputStream = null;
@@ -103,6 +106,23 @@ public class CryptoKeyFactory {
                 }
             }
         }
+    }
+
+    /**
+     * Creates an instance of the provider class name given to the factory.
+     *
+     * @return newly instanced {@link Provider} class
+     * @throws ClassNotFoundException    when class is not found at classpath
+     * @throws NoSuchMethodException     if the provider has incorrect signature for constructor
+     * @throws InvocationTargetException if instantiation failed
+     * @throws InstantiationException    if instantiation failed
+     * @throws IllegalAccessException    if instantiation failed
+     */
+    private Provider getProviderInstance() throws ClassNotFoundException, NoSuchMethodException,
+            InvocationTargetException, InstantiationException, IllegalAccessException {
+        Class<?> providerClass = Class.forName(providerClassName);
+        Constructor<?> constructor = providerClass.getConstructor();
+        return (Provider) constructor.newInstance();
     }
 
     /**
@@ -204,6 +224,7 @@ public class CryptoKeyFactory {
 
     /**
      * Key factory builder
+     *
      * @author Prasenjit Purohit
      */
     public static class CryptoKeyFactoryBuilder {
@@ -325,7 +346,10 @@ public class CryptoKeyFactory {
          * @return text to log properties
          */
         public String toString() {
-            return "CryptoKeyFactory.CryptoKeyFactoryBuilder(type=" + this.type + ", location=" + this.location + ", locationStr=" + this.locationStr + ", password=" + this.password + ", providerName=" + this.providerName + ", provider=" + this.provider + ", providerClassName=" + this.providerClassName + ", keyStore=" + this.keyStore + ")";
+            return "CryptoKeyFactory.CryptoKeyFactoryBuilder(type=" + this.type + ", location=" + this.location +
+                    ", locationStr=" + this.locationStr + ", password=" + this.password + ", providerName=" +
+                    this.providerName + ", provider=" + this.provider + ", providerClassName=" +
+                    this.providerClassName + ", keyStore=" + this.keyStore + ")";
         }
     }
 }

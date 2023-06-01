@@ -21,6 +21,8 @@ import org.junit.jupiter.api.Test;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.PublicKey;
+import java.security.interfaces.RSAPublicKey;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,5 +51,30 @@ public class RsaEncryptorBuilderTest {
 
         assertEquals(data, output);
     }
+    /**
+     * <p>client.</p>
+     *
+     * @throws java.lang.Exception if any.
+     */
+    @Test
+    public void clientWithModExpo() throws Exception {
+        String data = "Hello World!";
+        KeyPair keyPair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
 
+        RSAPublicKey rsaPublic = (RSAPublicKey) keyPair.getPublic();
+        TextEncryptor client = RsaEncryptorBuilder.client(rsaPublic.getModulus(), rsaPublic.getPublicExponent());
+        TextEncryptor server = RsaEncryptorBuilder.server(keyPair.getPrivate());
+
+        String output = server.decrypt(client.encrypt(data));
+
+        assertEquals(data, output);
+    }
+
+    @Test
+    void server() {
+    }
+
+    @Test
+    void testServer() {
+    }
 }

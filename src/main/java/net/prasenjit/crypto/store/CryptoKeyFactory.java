@@ -27,6 +27,7 @@ import java.net.URI;
 import java.net.URL;
 import java.security.*;
 import java.security.cert.CertificateException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,19 +41,19 @@ public class CryptoKeyFactory {
     private static final Logger log = Logger.getLogger(CryptoKeyFactory.class.getName());
     private final String locationStr;
     private final String providerClassName;
-    private String type = "JKS";
+    private String type;
     private URL location;
-    private String password = "changeit";
+    private String password;
     private String providerName;
     private Provider provider;
     private transient KeyStore keyStore;
 
     CryptoKeyFactory(String type, URL location, String locationStr, String password, String providerName,
                      Provider provider, String providerClassName, KeyStore keyStore) {
-        this.type = type;
+        this.type = Optional.ofNullable(type).orElse("JKS");
         this.location = location;
         this.locationStr = locationStr;
-        this.password = password;
+        this.password = Optional.ofNullable(password).orElse("changeit");
         this.providerName = providerName;
         this.provider = provider;
         this.providerClassName = providerClassName;

@@ -18,11 +18,24 @@ package net.prasenjit.crypto.store;
 
 import org.junit.jupiter.api.Test;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.security.KeyPair;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CryptoKeyFactoryTest {
 
     @Test
     void builder() {
+        URL resource = getClass().getResource("/test.jks");
+        CryptoKeyFactory keyFactory = CryptoKeyFactory.builder()
+                .location(resource)
+                .password("test")
+                .build();
+        assertNotNull(keyFactory);
+        KeyPair test = keyFactory.getKeyPair("test", "test".toCharArray());
+        assertNotNull(test);
     }
 }

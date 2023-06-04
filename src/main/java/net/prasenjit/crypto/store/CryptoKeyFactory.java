@@ -21,15 +21,13 @@ import net.prasenjit.crypto.exception.CryptoException;
 import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.security.*;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A factory class for easy access to java keystore
@@ -38,25 +36,22 @@ import java.util.logging.Logger;
  * @version $Id: $Id
  */
 public class CryptoKeyFactory {
-    private static final Logger log = Logger.getLogger(CryptoKeyFactory.class.getName());
     private final String locationStr;
-    private final String providerClassName;
-    private String type;
+    private final String type;
+    private final String password;
+    private final String providerName;
+    private final Provider provider;
     private URL location;
-    private String password;
-    private String providerName;
-    private Provider provider;
     private transient KeyStore keyStore;
 
     CryptoKeyFactory(String type, URL location, String locationStr, String password, String providerName,
-                     Provider provider, String providerClassName, KeyStore keyStore) {
+                     Provider provider, KeyStore keyStore) {
         this.type = Optional.ofNullable(type).orElse("JKS");
         this.location = location;
         this.locationStr = locationStr;
         this.password = Optional.ofNullable(password).orElse("changeit");
         this.providerName = providerName;
         this.provider = provider;
-        this.providerClassName = providerClassName;
         this.keyStore = keyStore;
     }
 
@@ -73,57 +68,30 @@ public class CryptoKeyFactory {
         try {
             if (provider != null) {
                 keyStore = KeyStore.getInstance(type, provider);
-            } else if (providerClassName != null) {
-                Provider loadedProvider = getProviderInstance();
-                Security.addProvider(loadedProvider);
-                provider = loadedProvider;
-                providerName = loadedProvider.getName();
-                keyStore = KeyStore.getInstance(type, provider);
             } else if (providerName != null) {
                 keyStore = KeyStore.getInstance(type, providerName);
             } else {
                 keyStore = KeyStore.getInstance(type);
             }
-        } catch (KeyStoreException | ClassNotFoundException | IllegalAccessException | InstantiationException |
-                 NoSuchProviderException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (KeyStoreException | NoSuchProviderException e) {
             throw new CryptoException("Failed to instantiate key store", e);
         }
-        InputStream inputStream = null;
         try {
             if (locationStr != null) {
                 location = URI.create(locationStr).toURL();
             }
-            inputStream = location != null ? location.openStream() : null;
+            if (location == null) {
+                throw new CryptoException("location in null");
+            }
+        } catch (MalformedURLException | IllegalArgumentException e) {
+            throw new CryptoException("malformed locationStr", e);
+        }
+        try (InputStream inputStream = location.openStream()) {
             char[] passwordChar = password != null ? password.toCharArray() : null;
             keyStore.load(inputStream, passwordChar);
         } catch (IOException | CertificateException | NoSuchAlgorithmException e) {
             throw new CryptoException("Failed to load key store", e);
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    log.log(Level.WARNING, "Failed to close stream", e);
-                }
-            }
         }
-    }
-
-    /**
-     * Creates an instance of the provider class name given to the factory.
-     *
-     * @return newly instanced {@link Provider} class
-     * @throws ClassNotFoundException    when class is not found at classpath
-     * @throws NoSuchMethodException     if the provider has incorrect signature for constructor
-     * @throws InvocationTargetException if instantiation failed
-     * @throws InstantiationException    if instantiation failed
-     * @throws IllegalAccessException    if instantiation failed
-     */
-    private Provider getProviderInstance() throws ClassNotFoundException, NoSuchMethodException,
-            InvocationTargetException, InstantiationException, IllegalAccessException {
-        Class<?> providerClass = Class.forName(providerClassName);
-        Constructor<?> constructor = providerClass.getConstructor();
-        return (Provider) constructor.newInstance();
     }
 
     /**
@@ -191,7 +159,7 @@ public class CryptoKeyFactory {
      * @param alias a {@link java.lang.String} object.
      * @return a {@link java.security.cert.Certificate} object.
      */
-    public java.security.cert.Certificate getCertificate(String alias) {
+    public Certificate getCertificate(String alias) {
         this.initialize();
         try {
             return keyStore.getCertificate(alias);
@@ -235,7 +203,6 @@ public class CryptoKeyFactory {
         private String password;
         private String providerName;
         private Provider provider;
-        private String providerClassName;
         private KeyStore keyStore;
 
         /**
@@ -311,17 +278,6 @@ public class CryptoKeyFactory {
         }
 
         /**
-         * Class name for security provider
-         *
-         * @param providerClassName fully qualifies class name
-         * @return a {@link CryptoKeyFactoryBuilder} the same instance
-         */
-        public CryptoKeyFactory.CryptoKeyFactoryBuilder providerClassName(String providerClassName) {
-            this.providerClassName = providerClassName;
-            return this;
-        }
-
-        /**
          * Uses a keystore
          *
          * @param keyStore key store to use
@@ -338,7 +294,7 @@ public class CryptoKeyFactory {
          * @return new {@link CryptoKeyFactory} instance
          */
         public CryptoKeyFactory build() {
-            return new CryptoKeyFactory(type, location, locationStr, password, providerName, provider, providerClassName, keyStore);
+            return new CryptoKeyFactory(type, location, locationStr, password, providerName, provider, keyStore);
         }
 
         /**
@@ -349,8 +305,7 @@ public class CryptoKeyFactory {
         public String toString() {
             return "CryptoKeyFactory.CryptoKeyFactoryBuilder(type=" + this.type + ", location=" + this.location +
                     ", locationStr=" + this.locationStr + ", password=" + this.password + ", providerName=" +
-                    this.providerName + ", provider=" + this.provider + ", providerClassName=" +
-                    this.providerClassName + ", keyStore=" + this.keyStore + ")";
+                    this.providerName + ", provider=" + this.provider + ", keyStore=" + this.keyStore + ")";
         }
     }
 }

@@ -21,14 +21,10 @@ import org.junit.jupiter.api.Test;
 
 import javax.crypto.SecretKey;
 import java.net.URL;
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Security;
+import java.security.*;
 import java.security.cert.Certificate;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CryptoKeyFactoryTest {
 
@@ -51,6 +47,36 @@ class CryptoKeyFactoryTest {
         assertNotNull(cert);
         SecretKey secretKey = keyFactory.getSecretKey("aes", "aes".toCharArray());
         assertNotNull(secretKey);
+    }
+
+    @Test
+    void testBuilderToString() {
+        String toString = CryptoKeyFactory.builder()
+                .type("JCEKS")
+                .password("advanced")
+                .toString();
+        assertNotNull(toString);
+    }
+
+    @Test
+    void builderWithKeyNotFound() {
+        URL resource = getClass().getResource("/advanced.jceks");
+        CryptoKeyFactory keyFactory = CryptoKeyFactory.builder()
+                .location(resource)
+                .type("JCEKS")
+                .password("advanced")
+                .build();
+        assertNotNull(keyFactory);
+        KeyPair test = keyFactory.getKeyPair("test1", "test".toCharArray());
+        assertNull(test);
+        PrivateKey test1 = keyFactory.getPrivateKey("test1", "test".toCharArray());
+        assertNull(test1);
+        PublicKey test2 = keyFactory.getPublicKey("test1");
+        assertNull(test2);
+        Certificate cert = keyFactory.getCertificate("test1");
+        assertNull(cert);
+        SecretKey secretKey = keyFactory.getSecretKey("aes1", "aes".toCharArray());
+        assertNull(secretKey);
     }
 
     @Test
@@ -120,7 +146,9 @@ class CryptoKeyFactoryTest {
                 .password("test")
                 .build();
         assertNotNull(keyFactory);
-        assertThrows(CryptoException.class, () -> keyFactory.getKeyPair("test", "test".toCharArray()), "Failed to instantiate key store");
+        assertThrows(CryptoException.class, () -> {
+            keyFactory.getKeyPair("test", "test".toCharArray());
+        });
     }
 
     @Test
@@ -129,7 +157,9 @@ class CryptoKeyFactoryTest {
                 .type("JKS")
                 .build();
         assertNotNull(keyFactory);
-        assertThrows(CryptoException.class, () -> keyFactory.getKeyPair("test", "test".toCharArray()), "location in null");
+        assertThrows(CryptoException.class, () -> {
+            keyFactory.getKeyPair("test", "test".toCharArray());
+        });
     }
 
     @Test
@@ -139,7 +169,9 @@ class CryptoKeyFactoryTest {
                 .type("JKS")
                 .build();
         assertNotNull(keyFactory);
-        assertThrows(CryptoException.class, () -> keyFactory.getKeyPair("test", "test".toCharArray()), "malformed locationStr");
+        assertThrows(CryptoException.class, () -> {
+            keyFactory.getKeyPair("test", "test".toCharArray());
+        });
     }
 
     @Test
@@ -151,6 +183,32 @@ class CryptoKeyFactoryTest {
                 .type("JKS")
                 .build();
         assertNotNull(keyFactory);
-        assertThrows(CryptoException.class, () -> keyFactory.getKeyPair("test", "test".toCharArray()), "malformed locationStr");
+        assertThrows(CryptoException.class, () -> {
+            keyFactory.getKeyPair("test", "test".toCharArray());
+        });
+    }
+
+    @Test
+    void testWithUnInitializedKeystore() throws KeyStoreException {
+        KeyStore keyStore = KeyStore.getInstance("JKS");
+        CryptoKeyFactory keyFactory = CryptoKeyFactory.builder()
+                .keyStore(keyStore)
+                .build();
+        assertNotNull(keyFactory);
+        assertThrows(CryptoException.class, () -> {
+            keyFactory.getPublicKey("test");
+        });
+        assertThrows(CryptoException.class, () -> {
+            keyFactory.getPrivateKey("test", "test".toCharArray());
+        });
+        assertThrows(CryptoException.class, () -> {
+            keyFactory.getCertificate("test");
+        });
+        assertThrows(CryptoException.class, () -> {
+            keyFactory.getKeyPair("test", "test".toCharArray());
+        });
+        assertThrows(CryptoException.class, () -> {
+            keyFactory.getSecretKey("test", "test".toCharArray());
+        });
     }
 }

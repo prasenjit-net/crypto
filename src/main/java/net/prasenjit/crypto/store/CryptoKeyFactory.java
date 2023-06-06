@@ -65,6 +65,9 @@ public class CryptoKeyFactory {
     }
 
     private synchronized void initialize() {
+        if (keyStore != null) {
+            return;
+        }
         try {
             if (provider != null) {
                 keyStore = KeyStore.getInstance(type, provider);
@@ -143,7 +146,7 @@ public class CryptoKeyFactory {
     public PublicKey getPublicKey(String alias) {
         this.initialize();
         try {
-            java.security.cert.Certificate certificate = keyStore.getCertificate(alias);
+            Certificate certificate = keyStore.getCertificate(alias);
             if (certificate != null) {
                 return certificate.getPublicKey();
             }
@@ -180,12 +183,10 @@ public class CryptoKeyFactory {
         try {
             Key key = keyStore.getKey(alias, password);
             if (key instanceof PrivateKey) {
-                java.security.cert.Certificate certificate = keyStore.getCertificate(alias);
-                if (certificate != null) {
-                    return new KeyPair(certificate.getPublicKey(), (PrivateKey) key);
-                }
+                Certificate certificate = keyStore.getCertificate(alias);
+                return new KeyPair(certificate.getPublicKey(), (PrivateKey) key);
             }
-            throw new CryptoException("No key pair available for alias " + alias);
+            return null;
         } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e) {
             throw new CryptoException("Failed to extract private key", e);
         }

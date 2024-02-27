@@ -36,7 +36,7 @@ jobs:
     secrets: inherit
     with:
       type: ${{ inputs.type }}
-#    needs: integration_test
+    needs: build
     if: |
       github.event_name == 'workflow_dispatch'
       && inputs.type != '...no release'
@@ -45,7 +45,7 @@ jobs:
     name: Publish artifact (Maven Central)
     uses: ./.github/workflows/callable.publish-sonatype.yml
     secrets: inherit
-#    needs: integration_test
+    needs: gradle_release
     if: |
       (
         github.event_name != 'workflow_dispatch'

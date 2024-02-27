@@ -18,6 +18,8 @@ plugins {
     `maven-publish`
     signing
     `project-report`
+    id("net.researchgate.release") version "3.0.2"
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0-rc-2"
 }
 
 val cryptoVersion: String? by project
@@ -62,6 +64,12 @@ tasks.named<Test>("test") {
 
 repositories {
     mavenCentral()
+}
+
+release {
+    git {
+        requireBranch = "master"
+    }
 }
 
 publishing {

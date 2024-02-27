@@ -67,6 +67,7 @@ repositories {
 }
 
 release {
+    version = cryptoVersion!!
     git {
         requireBranch = "master"
     }

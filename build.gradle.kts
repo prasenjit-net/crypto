@@ -24,7 +24,7 @@ val cryptoVersion: String? by project
 println(cryptoVersion)
 
 description = "A Cryptographic Operation Utility Library"
-group = "net.prasenjit"
+group = "io.github.prasenjit-net"
 version = cryptoVersion!!
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
@@ -36,7 +36,7 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:${junitVersion}"))
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("ch.qos.logback:logback-core:1.4.7")
+    testImplementation("ch.qos.logback:logback-core:1.4.12")
 }
 
 java {

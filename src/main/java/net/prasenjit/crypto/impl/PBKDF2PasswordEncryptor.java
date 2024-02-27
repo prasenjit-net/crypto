@@ -96,7 +96,7 @@ public class PBKDF2PasswordEncryptor implements PasswordEncryptor {
     /**
      * <p>Getter for the field <code>cost</code>.</p>
      *
-     * @return a int.
+     * @return an int.
      */
     public int getCost() {
         return cost;
@@ -105,7 +105,7 @@ public class PBKDF2PasswordEncryptor implements PasswordEncryptor {
     /**
      * <p>Setter for the field <code>cost</code>.</p>
      *
-     * @param cost a int.
+     * @param cost an int.
      */
     public void setCost(int cost) {
         this.cost = cost;
@@ -114,7 +114,7 @@ public class PBKDF2PasswordEncryptor implements PasswordEncryptor {
     /**
      * <p>Getter for the field <code>saltSize</code>.</p>
      *
-     * @return a int.
+     * @return an int.
      */
     public int getSaltSize() {
         return saltSize;
@@ -123,7 +123,7 @@ public class PBKDF2PasswordEncryptor implements PasswordEncryptor {
     /**
      * <p>Setter for the field <code>saltSize</code>.</p>
      *
-     * @param saltSize a int.
+     * @param saltSize an int.
      */
     public void setSaltSize(int saltSize) {
         this.saltSize = saltSize;

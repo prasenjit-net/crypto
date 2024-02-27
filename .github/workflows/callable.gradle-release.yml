@@ -40,7 +40,7 @@ jobs:
       - name: Get current version
         run: |
           source gradle.properties
-          echo "current_version=${cryptoVersion}" >> $GITHUB_ENV
+          echo "current_version=${version}" >> $GITHUB_ENV
 
       - name: Determine version type
         env:

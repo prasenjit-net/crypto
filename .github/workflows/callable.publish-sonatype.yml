@@ -22,7 +22,7 @@ jobs:
 
       # note the following two steps are identical but different names for better DX in GitHub Actions UI
       - name: Publish SNAPSHOT to Sonatype (Maven Central)
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}

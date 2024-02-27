@@ -22,10 +22,10 @@ jobs:
             echo "Unknown release type: $TYPE"
             exit 1
           fi
-      - name: Checkout project sources ('main' branch)
+      - name: Checkout project sources ('master' branch)
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: master
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-java@v4
         with:

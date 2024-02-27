@@ -22,12 +22,12 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0-rc-2"
 }
 
-val cryptoVersion: String? by project
-println(cryptoVersion)
+//val version: String? by project
+//println(version)
 
 description = "A Cryptographic Operation Utility Library"
 group = "io.github.prasenjit-net"
-version = cryptoVersion!!
+//version = version!!
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
@@ -67,7 +67,7 @@ repositories {
 }
 
 release {
-    version = cryptoVersion!!
+//    version = cryptoVersion!!
     git {
         requireBranch = "master"
     }

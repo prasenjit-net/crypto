@@ -2,7 +2,7 @@ name: Main Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
     tags:
       - '*'
   pull_request:

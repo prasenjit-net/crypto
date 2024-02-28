@@ -1,0 +1,21 @@
+[versions]
+slf4j = "1.7.30"
+logback = "1.4.12"
+junit = "5.7.2"
+release_plugin = "3.0.2"
+publish_plugin = "2.0.0-rc-2"
+
+[libraries]
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+logback-core = { module = "ch.qos.logback:logback-core", version.ref = "logback" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+
+[bundles]
+compile = ["slf4j-api"]
+test = ["junit-jupiter-api", "junit-jupiter-engine", "logback-core"]
+
+[plugins]
+release = { id = "net.researchgate.release", version.ref = "release_plugin" }
+publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "publish_plugin" }
+versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }

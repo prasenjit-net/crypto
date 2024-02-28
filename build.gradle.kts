@@ -18,8 +18,9 @@ plugins {
     `maven-publish`
     signing
     `project-report`
-    id("net.researchgate.release") version "3.0.2"
-    id("io.github.gradle-nexus.publish-plugin") version "2.0.0-rc-2"
+    alias(libs.plugins.release)
+    alias(libs.plugins.publish)
+    alias(libs.plugins.versions)
 }
 
 //val version: String? by project
@@ -32,13 +33,9 @@ group = "io.github.prasenjit-net"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    val slf4jVersion: String? by project
-    val junitVersion: String? by project
-    api("org.slf4j:slf4j-api:${slf4jVersion}")
-    testImplementation(platform("org.junit:junit-bom:${junitVersion}"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("ch.qos.logback:logback-core:1.4.12")
+    api(libs.bundles.compile)
+
+    testImplementation(libs.bundles.test)
 }
 
 java {
